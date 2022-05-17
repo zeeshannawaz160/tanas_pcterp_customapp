@@ -1,0 +1,120 @@
+[
+  {
+    "_id": "625ef6e95406b7633cc8040a",
+    "levels": [
+      "All"
+    ],
+    "name": "Employees",
+    "code": "EMPLOYEES",
+    "description": "Allows usage of Employee document.",
+    "documentId": 12,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc8040b",
+    "levels": [],
+    "name": "Employee Reports",
+    "code": "EMPLOYEES_REPORTS",
+    "description": "Allows usage of Employee reports.",
+    "documentId": 13,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc8040c",
+    "levels": [],
+    "name": "Sales Order",
+    "code": "SALES_ORDER",
+    "description": "Allows usage of Sales Order document.",
+    "documentId": 14,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc8040d",
+    "levels": [],
+    "name": "Sales Order Reports",
+    "code": "SALES_ORDER_REPORTS",
+    "description": "Allows usage of Sales Order reports.",
+    "documentId": 15,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc8040e",
+    "levels": [],
+    "name": "Sales Order Transaction Reports",
+    "code": "SALES_ORDER_TRANSACTION_REPORTS",
+    "description": "Allows usage of the Sales Order Register report definition.",
+    "documentId": 16,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc8040f",
+    "levels": [],
+    "name": "Sales Order Approval",
+    "code": "SALES_ORDER_APPROVAL",
+    "description": "Allows usage of the Approve Sales Orders task.",
+    "documentId": 17,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80410",
+    "levels": [],
+    "name": "Bill Sales Orders",
+    "code": "BILL_SALES_ORDER",
+    "description": "Allows usage of the Bill Sales Orders task.",
+    "documentId": 18,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80411",
+    "levels": [],
+    "name": "Sales Roles",
+    "code": "SALES_ROLES",
+    "description": "Allows viewing and editing of the Sales Role document.",
+    "documentId": 19,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80413",
+    "levels": [
+      "All"
+    ],
+    "name": "Accounting",
+    "code": "ACCOUNTING",
+    "description": "Allows usage of Accounting document.",
+    "documentId": 21,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80414",
+    "levels": [
+      "All"
+    ],
+    "name": "Point of Sale",
+    "code": "POINT_OF_SALE",
+    "description": "Allows usage of Point of sale",
+    "documentId": 22,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80415",
+    "levels": [
+      "All"
+    ],
+    "name": "Inventory",
+    "code": "INVENTORY",
+    "description": "Allows usage of Inventory",
+    "documentId": 23,
+    "__v": 0
+  },
+  {
+    "_id": "625ef6e95406b7633cc80412",
+    "levels": [
+      "All"
+    ],
+    "name": "Purchase Order",
+    "code": "PURCHASE_ORDER",
+    "description": "Allows usage of Purchase Order document.",
+    "documentId": 20,
+    "__v": 0
+  }
+]

@@ -1,0 +1,86 @@
+[
+    {
+        "name": "Administrator",
+        "description": "",
+        "permissions": [
+            {
+                "id": "625ef6e95406b7633cc8040a",
+                "name": "Employees",
+                "code": "EMPLOYEES",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040b",
+                "name": "Employee Reports",
+                "code": "EMPLOYEES_REPORTS",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040c",
+                "name": "Sales Order",
+                "code": "SALES_ORDER",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040d",
+                "name": "Sales Order Reports",
+                "code": "SALES_ORDER_REPORTS",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040e",
+                "name": "Sales Order Transaction Reports",
+                "code": "SALES_ORDER_TRANSACTION_REPORTS",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040f",
+                "name": "Sales Order Approval",
+                "code": "SALES_ORDER_APPROVAL",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80410",
+                "name": "Bill Sales Orders",
+                "code": "BILL_SALES_ORDER",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80411",
+                "name": "Employee Reports",
+                "code": "EMPLOYEES_REPORTS",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc8040b",
+                "name": "Sales Roles",
+                "code": "SALES_ROLES",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80413",
+                "name": "Accounting",
+                "code": "ACCOUNTING",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80414",
+                "name": "Point of Sale",
+                "code": "POINT_OF_SALE",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80415",
+                "name": "Inventory",
+                "code": "INVENTORY",
+                "level": "ALL"
+            },
+            {
+                "id": "625ef6e95406b7633cc80412",
+                "name": "Purchase Order",
+                "code": "PURCHASE_ORDER",
+                "level": "ALL"
+            }
+        ]
+    }
+]

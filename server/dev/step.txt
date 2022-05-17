@@ -1,0 +1,4 @@
+Steps
+1. Permissions [Name, Code, Description]
+2. Roles [Name, Description, Permission[Permission]]
+3. Employee

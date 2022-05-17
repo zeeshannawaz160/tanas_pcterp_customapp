@@ -1,0 +1,74 @@
+[
+  {
+    "name": "Accounting",
+    "abbreviation": "Accounting",
+    "link": "accounting",
+    "icon": "Accounting",
+    "color": "#7D3C98",
+    "backgroundColor": "#E8DAEF",
+    "documentId": 1
+  },
+  {
+    "name": "Custom Apps",
+    "abbreviation": "Custom Apps",
+    "link": "customapps",
+    "icon": "CustomApp",
+    "color": "#2E4053",
+    "backgroundColor": "##D6DBDF",
+    "documentId": 2
+  },
+  {
+    "name": "Employees",
+    "abbreviation": "Employees",
+    "link": "employees",
+    "icon": "Employees",
+    "color": "#7D3C98",
+    "backgroundColor": "#E8DAEF",
+    "documentId": 3
+  },
+  {
+    "name": "Inventory",
+    "abbreviation": "Inventory",
+    "link": "inventory",
+    "icon": "Inventory",
+    "color": "#2E86C1",
+    "backgroundColor": "#D6EAF8",
+    "documentId": 4
+  },
+  {
+    "name": "Manufacturing",
+    "abbreviation": "Manufacturing",
+    "link": "manufacturing",
+    "icon": "Manufacturing",
+    "color": "#138D75",
+    "backgroundColor": "#D0ECE7",
+    "documentId": 5
+  },
+  {
+    "name": "Point of Sale",
+    "abbreviation": "Point of Sale",
+    "link": "pos",
+    "icon": "Point of Sale",
+    "color": "#BA4A00",
+    "backgroundColor": "#F6DDCC",
+    "documentId": 6
+  },
+  {
+    "name": "Purchase",
+    "abbreviation": "Purchase",
+    "link": "purchase",
+    "icon": "Purchase",
+    "color": "#17A589",
+    "backgroundColor": "#D1F2EB",
+    "documentId": 7
+  },
+  {
+    "name": "Sales",
+    "abbreviation": "Sales",
+    "link": "sales",
+    "icon": "Sales",
+    "color": "#D4AC0D",
+    "backgroundColor": "#FCF3CF",
+    "documentId": 8
+  }
+]

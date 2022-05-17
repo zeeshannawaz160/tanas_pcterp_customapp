@@ -1,0 +1,38 @@
+[
+  {
+    "_id": "6265381b083bdc52d8174a9d",
+    "name": "Brent Ludtke",
+    "phone": "7705562672",
+    "email": "bludtke@outlook.com",
+    "address": "3252 Lakeland Park Drive, Norcross, Georgia,  United States, 30071",
+    "addresses": [],
+    "customerId": 0
+  },
+  {
+    "_id": "626ab78f82a2d35c849b6398",
+    "name": "Brittany Walker",
+    "phone": "8889682668",
+    "email": "brittany.walker@nike.com",
+    "address": "671 Brooklyn Street, Harrisonburg, United States, 22801",
+    "addresses": [],
+    "customerId": 1
+  },
+  {
+    "_id": "626ab7f482a2d35c849b639e",
+    "name": "David Schriber",
+    "phone": "4156709050",
+    "email": "david.schriber@nike.com",
+    "address": "3492 Jewell Road, Minneapolis, Minnesota, United States,  55402",
+    "addresses": [],
+    "customerId": 2
+  },
+  {
+    "_id": "626ab86682a2d35c849b63a6",
+    "name": "Jon Hopkins",
+    "phone": "6163316662",
+    "email": "job.hopkins@outlook.com",
+    "address": "4639 Cottonwood Lane, Portage, Michigan, United States, 49002",
+    "addresses": [],
+    "customerId": 3
+  }
+]

@@ -1,0 +1,14 @@
+{
+    "giveAccess": true,
+    "firstName": "Rehan",
+    "lastName": "Nawaz",
+    "roles": [
+        {
+            "name": "Administrator",
+            "id": "625efbdc0152662f584bd988"
+        }
+    ],
+    "email": "rnawaz@paapri.com",
+    "password": "Paapri@April2022",
+    "passwordConfirm": "Paapri@April2022"
+}

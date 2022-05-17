@@ -1,0 +1,222 @@
+[
+  {
+    "_id": "61b839ddd6fe795ec8bf53f6",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "Sales",
+    "accountNumber": 4000,
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d45",
+        "name": "Income"
+      }
+    ],
+    "documentId": 0,
+    "name": "4000 Sales",
+    "description": ""
+  },
+  {
+    "_id": "61b839ddd6fe795ec8bf53f7",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "Inventory Asset",
+    "accountNumber": 12100,
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d49",
+        "name": "Non Current Assets"
+      }
+    ],
+    "documentId": 1,
+    "name": "12100 Inventory Asset",
+    "description": ""
+  },
+  {
+    "_id": "61b839ddd6fe795ec8bf53f8",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "SGST PAYABLE",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d44",
+        "name": "Other Current Liability"
+      }
+    ],
+    "documentId": 2,
+    "name": " SGST PAYABLE",
+    "accountNumber": 3000,
+    "description": ""
+  },
+  {
+    "_id": "61b839ddd6fe795ec8bf53f9",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "CGST PAYABLE",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d44",
+        "name": "Other Current Liability"
+      }
+    ],
+    "documentId": 3,
+    "name": " CGST PAYABLE",
+    "accountNumber": 3000,
+    "description": ""
+  },
+  {
+    "_id": "61b839ddd6fe795ec8bf53fa",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "Account receivable",
+    "accountNumber": 13000,
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d47",
+        "name": "Account receivable"
+      }
+    ],
+    "documentId": 4,
+    "name": "13000 Account receivable",
+    "description": ""
+  },
+  {
+    "_id": "61b839ddd6fe795ec8bf53fb",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "COGS",
+    "accountNumber": 5000,
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d46",
+        "name": "COGS"
+      }
+    ],
+    "documentId": 5,
+    "name": "5000 COGS",
+    "description": ""
+  },
+  {
+    "_id": "61b8766c222e1d5cf43b69e4",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "accountNumber": 1000,
+    "title": "Outstanding",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d45",
+        "name": "Income"
+      }
+    ],
+    "description": "outstanding",
+    "documentId": 7,
+    "name": "1000 Outstanding",
+    "__v": 0
+  },
+  {
+    "_id": "61c0676b4b86464aac64ba99",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "Account Payable",
+    "accountNumber": 12345,
+    "description": "Payable",
+    "documentId": 8,
+    "name": "12345 Account Payable",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d4f",
+        "name": "Accounts Payable"
+      }
+    ]
+  },
+  {
+    "_id": "61c424aafc9eab48901cd893",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "accountNumber": 1000,
+    "title": "Bank",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d4b",
+        "name": "Bank"
+      }
+    ],
+    "description": "",
+    "documentId": 9,
+    "name": "1000 Bank",
+    "__v": 0
+  },
+  {
+    "_id": "61e5b9114d73634110662b2b",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "accountNumber": 2200,
+    "title": "WIP - Inventory Asset",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d4c",
+        "name": "Other Current Asset"
+      }
+    ],
+    "description": "WIP - Inventory Asset",
+    "documentId": 11,
+    "name": "2200 WIP - Inventory Asset",
+    "__v": 0
+  },
+  {
+    "_id": "61e70ff7e8f3343c941cb78a",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "accountNumber": 1111,
+    "title": "Labour charge",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d4a",
+        "name": "Expense"
+      }
+    ],
+    "description": "",
+    "documentId": 12,
+    "name": "1111 Labour charge",
+    "__v": 0
+  },
+  {
+    "_id": "61ee90c171333354f0f695e4",
+    "openingDebit": 0,
+    "openingCredit": 0,
+    "openingBalance": 0,
+    "balance": 0,
+    "title": "Purchases",
+    "accountNumber": 5000,
+    "description": "Purchases",
+    "documentId": 13,
+    "name": "5000 Purchases",
+    "accountType": [
+      {
+        "id": "6214af5aa8c46336482b2d4a",
+        "name": "Expense"
+      }
+    ]
+  }
+]

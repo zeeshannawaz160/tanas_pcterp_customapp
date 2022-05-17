@@ -1,0 +1,191 @@
+[
+  {
+    "_id": "62648e2ef5a3d758208f4610",
+    "type": "Storable Product",
+    "salesPrice": 8720,
+    "cost": 8000,
+    "totalPurchasedQuantity": 108,
+    "totalSoldQuantity": 0,
+    "onHand": 135,
+    "available": 131,
+    "commited": 4,
+    "forecasted": 0,
+    "vendorTaxes": [
+      "5"
+    ],
+    "name": "Hercules Trailfire RF DBF 26T Forest Green",
+    "description": "Hercules Trailfire RF DBF 26T Forest Green",
+    "remark": "",
+    "location": [],
+    "barcode": "202223040000",
+    "HSNSACS": [],
+    "cgstRate": 6,
+    "sgstRate": 6,
+    "igstRate": 12,
+    "cess": 0,
+    "incomeAccount": [
+      {
+        "name": "4000 Sales",
+        "id": "61b839ddd6fe795ec8bf53f6"
+      }
+    ],
+    "expenseAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "assetAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "documentId": 2
+  },
+  {
+    "_id": "62667899373f5552502b6ca4",
+    "type": "Storable Product",
+    "salesPrice": 8900,
+    "cost": 8000,
+    "totalPurchasedQuantity": 25,
+    "totalSoldQuantity": 7,
+    "onHand": 18,
+    "available": 10,
+    "commited": 8,
+    "forecasted": 0,
+    "vendorTaxes": [
+      "5"
+    ],
+    "name": "Hercules Trail fire HT Turbodrive 26T Matt Black",
+    "description": "Hercules Trail fire HT Turbodrive 26T Matt Black",
+    "remark": "",
+    "location": [
+      {
+        "name": "PBTI",
+        "id": "625eff212de0500b2c5ba4d4"
+      }
+    ],
+    "barcode": "202223040000",
+    "cgstRate": null,
+    "sgstRate": null,
+    "igstRate": null,
+    "cess": null,
+    "incomeAccount": [
+      {
+        "name": "4000 Sales",
+        "id": "61b839ddd6fe795ec8bf53f6"
+      }
+    ],
+    "expenseAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "assetAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "HSNSACS": [],
+    "documentId": 5
+  },
+  {
+    "_id": "626abd0c573b292d5cf4c70b",
+    "type": "Storable Product",
+    "salesPrice": 8295,
+    "cost": 0,
+    "totalPurchasedQuantity": 0,
+    "totalSoldQuantity": 3,
+    "onHand": -3,
+    "available": 0,
+    "commited": -1,
+    "forecasted": 0,
+    "vendorTaxes": [
+      "10"
+    ],
+    "name": "Hercules Trail fire RF NV 26T Matt Black",
+    "description": "Hercules Trail fire RF NV 26T Matt Black",
+    "remark": "",
+    "location": [
+      {
+        "name": "PBTI",
+        "id": "625eff212de0500b2c5ba4d4"
+      }
+    ],
+    "barcode": "202223040000",
+    "cgstRate": 9,
+    "sgstRate": 9,
+    "igstRate": 18,
+    "cess": 0,
+    "incomeAccount": [
+      {
+        "name": "100310 Inventories",
+        "id": "62655e4bde020e79acdffd89"
+      }
+    ],
+    "expenseAccount": [
+      {
+        "name": "210700 Purchase Expense",
+        "id": "62655f93de020e79acdffdd4"
+      }
+    ],
+    "assetAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "documentId": 6
+  },
+  {
+    "_id": "626abd4c573b292d5cf4c725",
+    "type": "Storable Product",
+    "salesPrice": 7920,
+    "cost": 0,
+    "totalPurchasedQuantity": 0,
+    "totalSoldQuantity": 5,
+    "onHand": -5,
+    "available": 0,
+    "commited": -1,
+    "forecasted": 0,
+    "vendorTaxes": [
+      "5"
+    ],
+    "name": "Hercules Streetcat Pro 26T Acid Green",
+    "description": "Hercules Streetcat Pro 26T Acid Green",
+    "remark": "",
+    "location": [
+      {
+        "name": "PBTI",
+        "id": "625eff212de0500b2c5ba4d4"
+      }
+    ],
+    "barcode": "202223040000",
+    "cgstRate": 9,
+    "sgstRate": 9,
+    "igstRate": 18,
+    "cess": 0,
+    "incomeAccount": [
+      {
+        "name": "100310 Inventories",
+        "id": "62655e4bde020e79acdffd89"
+      }
+    ],
+    "expenseAccount": [
+      {
+        "name": "210700 Purchase Expense",
+        "id": "62655f93de020e79acdffdd4"
+      }
+    ],
+    "assetAccount": [
+      {
+        "name": "12100 Inventory Asset",
+        "id": "61b839ddd6fe795ec8bf53f7"
+      }
+    ],
+    "documentId": 7
+  }
+]

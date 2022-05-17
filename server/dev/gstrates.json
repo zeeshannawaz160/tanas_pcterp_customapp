@@ -1,0 +1,93 @@
+[{
+  "_id": {
+    "$oid": "61b83dc5d6fe795ec8bf541d"
+  },
+  "type": "Goods",
+  "name": "0209",
+  "description": "All goods [other than fresh or chilled], and put up in unit container and,-(a) bearing a brand name",
+  "cgstRate": 2.5,
+  "sgstRate": 2.5,
+  "igstRate": 5,
+  "cess": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "gstRatesId": 0,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61b83dc5d6fe795ec8bf541e"
+  },
+  "type": "Goods",
+  "name": "0406",
+  "description": "Cheese",
+  "cgstRate": 6,
+  "sgstRate": 6,
+  "igstRate": 12,
+  "cess": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "gstRatesId": 1,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61b83dc5d6fe795ec8bf541f"
+  },
+  "type": "Goods",
+  "name": "2603",
+  "description": "Copper ores and concentrates.",
+  "cgstRate": 9,
+  "sgstRate": 9,
+  "igstRate": 18,
+  "cess": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "gstRatesId": 2,
+  "__v": 0
+},{
+  "_id": {
+    "$oid": "61b83dc5d6fe795ec8bf5420"
+  },
+  "type": "Goods",
+  "name": "8802",
+  "description": "Aircrafts for personal use",
+  "cgstRate": 14,
+  "sgstRate": 14,
+  "igstRate": 28,
+  "cess": 0,
+  "createdAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "updatedAt": {
+    "$date": {
+      "$numberLong": "1639464389562"
+    }
+  },
+  "gstRatesId": 3,
+  "__v": 0
+}]

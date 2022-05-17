@@ -1,0 +1,135 @@
+[
+  {
+    "_id": "6214af5aa8c46336482b2d53",
+    "name": "Other Income",
+    "category": "Income",
+    "notation": 1,
+    "documentId": 1
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d44",
+    "name": "Other Current Liability",
+    "category": "Liability",
+    "notation": 0,
+    "documentId": 2
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d54",
+    "name": "Other Expense",
+    "category": "Expenses",
+    "notation": 0,
+    "documentId": 3
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d51",
+    "name": "Long Term Liability",
+    "category": "Liability",
+    "notation": 0,
+    "documentId": 4
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4c",
+    "name": "Other Current Asset",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 5
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d57",
+    "name": "Unbilled Receivable",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 6
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d45",
+    "name": "Income",
+    "category": "Income",
+    "notation": 1,
+    "documentId": 7
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d46",
+    "name": "COGS",
+    "category": "Expenses",
+    "notation": 0,
+    "documentId": 8
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d47",
+    "name": "Account Receivable",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 9
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4d",
+    "name": "Fixed Asset",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 10
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d56",
+    "name": "Deferred Expense",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 11
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d55",
+    "name": "Deferred Revenue",
+    "category": "Liability",
+    "notation": 0,
+    "documentId": 12
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d50",
+    "name": "Credit Card",
+    "category": "Liability",
+    "notation": 0,
+    "documentId": 13
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d52",
+    "name": "Equity",
+    "category": "Equity",
+    "notation": 0,
+    "documentId": 14
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d49",
+    "name": "Non Current Assets",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 15
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4a",
+    "name": "Expense",
+    "category": "Expenses",
+    "notation": 0,
+    "documentId": 16
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4b",
+    "name": "Bank",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 17
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4e",
+    "name": "Other Asset",
+    "category": "Asset",
+    "notation": 1,
+    "documentId": 18
+  },
+  {
+    "_id": "6214af5aa8c46336482b2d4f",
+    "name": "Accounts Payable",
+    "category": "Liability",
+    "notation": 0,
+    "documentId": 19
+  }
+]
