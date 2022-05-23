@@ -19,7 +19,7 @@ const PurchaseOrderPDF = {
         // console.log(productReceived);
         // products = productReceived.products
 
-        ApiService.get("vendor/" + productReceived.vendor)
+        ApiService.get("vendor/" + productReceived.vendor[0]._id)
           .then((response) => {
             vendor = response.data.document;
             console.log(products);
@@ -27,56 +27,109 @@ const PurchaseOrderPDF = {
             let Products = new Array();
             var doc = new jsPDF("p", "pt", "a4");
 
+            var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
+
             doc.setDrawColor(0);
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 700, 40, "F");
-            doc.setFontSize(12);
-            doc.text("Date:", 460, 90);
-            doc.text(`${productReceived.effectiveDate?.slice(0, 10)}`, 490, 90);
-            // doc.rect(460, 62, 90, 15);
+            doc.setFontSize(9);
+            doc.text("Date:", 480, 85);
+            doc.text(`${productReceived.effectiveDate?.slice(0, 10)}`, pageWidth - doc.getTextWidth(`${productReceived.effectiveDate?.slice(0, 10)}`) - 40, 85,);
             doc.setFontSize(17);
-            doc.setFont("bold");
-            // doc.text("PO#:", 430, 95);
-            //POO number
-            doc.text(`${productReceived.name}`, 460, 70);
-            // doc.rect(460, 77, 90, 15);
+            doc.text(`${productReceived.name}`, pageWidth - doc.getTextWidth(`${productReceived.name}`) - 40, 70,);
 
-            doc.setFontSize(22);
-            // doc.setFont("times", "italic");
-            doc.text("Company:", 40, 70);
-            // doc.line(40, 68, 90, 68)
             doc.setFontSize(17);
-            doc.text(`PBTI`, 138, 70);
+            doc.text("Company:", 40, 70,);
+            doc.setFontSize(17);
+            doc.text(`PBTI`, 130, 70);
 
-            doc.setFontSize(12);
-            doc.text("Address:", 40, 90);
             doc.setFontSize(9);
-            doc.text(
-              "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
-              90,
-              80
-            );
+            doc.text("Address:", 40, 85);
+            // doc.text("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 85);
+            var companyAddress = doc.splitTextToSize("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 180 - 0 - 0);
+            doc.text(companyAddress, 80, 85);
 
-            doc.setFontSize(12);
-            doc.text("Phone:", 40, 140);
-            doc.setFontSize(9);
-            doc.text("8282822924", 80, 140);
-            doc.setFontSize(12);
-            doc.text("Website:", 40, 160);
-            doc.setFontSize(9);
-            doc.text("www.paapri.com", 90, 160);
-            // doc.text("Website:", 40, 200);
+            var companyAddressDimension = doc.getTextDimensions(companyAddress);
+
+
+            doc.setTextColor(0, 0, 0);
+            doc.text("Phone: ", 40, companyAddressDimension.h + 95);
+            doc.text(`${productReceived.phone ? productReceived.phone : "123-456-7890"}`, 78, companyAddressDimension.h + 95);
+
+            doc.text("Website:", 40, companyAddressDimension.h + 105);
+            doc.text("www.paapri.com", 80, companyAddressDimension.h + 105);
+
 
             doc.setDrawColor(255, 0, 0);
             doc.setFillColor(230, 230, 230);
-            doc.rect(40, 175, 200, 20, "F");
+            doc.rect(40, companyAddressDimension.h + 125, 200, 20, "F");
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text("Receive From:", 45, 190);
-            doc.setTextColor(0, 0, 0);
-            // doc.text("Name:", 43, 210);
+            doc.text("Receive From:", 45, companyAddressDimension.h + 140);
             doc.setFontSize(9);
-            doc.text(vendor.name, 43, 205);
+            doc.text(`${vendor.name}`, 43, companyAddressDimension.h + 160);
+            var receiveFromAddress = doc.splitTextToSize(
+              `${productReceived?.address}`,
+              180 - 0 - 0
+            );
+            // if (receiveFromAddress !== undefined && receiveFromAddress !== null)
+            // doc.text(receiveFromAddress, 43, companyAddressDimension.h + 170);
+
+            var receiveFromAddressDimension = doc.getTextDimensions(receiveFromAddress);
+
+
+
+            // doc.setDrawColor(0);
+            // doc.setFillColor(255, 255, 255);
+            // doc.rect(0, 0, 700, 40, "F");
+            // doc.setFontSize(12);
+            // doc.text("Date:", 460, 90);
+            // doc.text(`${productReceived.effectiveDate?.slice(0, 10)}`, 490, 90);
+            // // doc.rect(460, 62, 90, 15);
+            // doc.setFontSize(17);
+            // doc.setFont("bold");
+            // // doc.text("PO#:", 430, 95);
+            // //POO number
+            // doc.text(`${productReceived.name}`, 460, 70);
+            // // doc.rect(460, 77, 90, 15);
+
+            // doc.setFontSize(22);
+            // // doc.setFont("times", "italic");
+            // doc.text("Company:", 40, 70);
+            // // doc.line(40, 68, 90, 68)
+            // doc.setFontSize(17);
+            // doc.text(`PBTI`, 138, 70);
+
+            // doc.setFontSize(12);
+            // doc.text("Address:", 40, 90);
+            // doc.setFontSize(9);
+            // doc.text(
+            //   "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
+            //   90,
+            //   80
+            // );
+
+            // doc.setFontSize(12);
+            // doc.text("Phone:", 40, 140);
+            // doc.setFontSize(9);
+            // doc.text("8282822924", 80, 140);
+            // doc.setFontSize(12);
+            // doc.text("Website:", 40, 160);
+            // doc.setFontSize(9);
+            // doc.text("www.paapri.com", 90, 160);
+            // doc.text("Website:", 40, 200);
+
+            // doc.setDrawColor(255, 0, 0);
+            // doc.setFillColor(230, 230, 230);
+            // doc.rect(40, 175, 200, 20, "F");
+            // doc.setFontSize(12);
+            // doc.setTextColor(0, 0, 0);
+            // doc.text("Receive From:", 45, 190);
+            // doc.setTextColor(0, 0, 0);
+            // // doc.text("Name:", 43, 210);
+            // doc.setFontSize(9);
+            // doc.text(vendor.name, 43, 205);
             // doc.text(`${productReceived.vendor.address}`, 43, 230);
             // doc.setDrawColor(255, 0, 0);
             // doc.setFillColor(230, 230, 230);
@@ -86,14 +139,15 @@ const PurchaseOrderPDF = {
             // doc.text("Ship To:", 360, 190);
             // doc.setTextColor(0, 0, 0);
             // doc.text("Name & Address:", 358, 210);
-            doc.setFontSize(30);
-            doc.setFont("Sans-serif");
+
+
+            doc.setFontSize(25);
             doc.setTextColor(0, 0, 0);
-            doc.text("Product Receipt", 215, 40);
+            doc.text("PRODUCT RECEIPT", pageWidth / 2 - doc.getTextWidth("PRODUCT RECEIPT") / 2, 40);
             let height = 200;
 
             doc.autoTable({
-              margin: { top: 280 },
+              margin: { top: 180 + receiveFromAddressDimension.h + companyAddressDimension.h },
               styles: {
                 lineColor: [153, 153, 153],
                 lineWidth: 1,
@@ -145,8 +199,9 @@ const PurchaseOrderPDF = {
 
   //BILL PDF
   generateBillPDF(billId) {
+    console.log(billId)
     ApiService.setHeader();
-    ApiService.get("bill/forpdf/" + billId).then((response) => {
+    ApiService.get("newBill/forpdf/" + billId).then((response) => {
       console.log(response);
       if (response.data.isSuccess) {
         const bill = response.data.document;
@@ -155,72 +210,61 @@ const PurchaseOrderPDF = {
             console.log(res.data.document);
             let Products = new Array();
             var doc = new jsPDF("p", "pt", "a4");
+            var pageWidth = doc.internal.pageSize.getWidth();
+            var pageHeight = doc.internal.pageSize.getHeight();
+
 
             doc.setDrawColor(0);
             doc.setFillColor(255, 255, 255);
             doc.rect(0, 0, 700, 40, "F");
-            doc.setFontSize(12);
-            doc.text("Date:", 440, 110);
-            doc.text(`${bill.billDate?.slice(0, 10)}`, 470, 110);
-            // doc.rect(460, 62, 90, 15);
+            doc.setFontSize(9);
+            doc.text("Date:", 480, 85);
+            doc.text(`${bill.billDate?.slice(0, 10)}`, pageWidth - doc.getTextWidth(`${bill.billDate?.slice(0, 10)}`) - 40, 85,);
             doc.setFontSize(17);
-            // doc.setFont("bold");
+            doc.text(`${bill.name}`, pageWidth - doc.getTextWidth(`${bill.name}`) - 40, 70,);
 
-            doc.text(bill.name ? bill.name : "", 440, 70);
-            // doc.rect(460, 77, 90, 15);
-
-            doc.setFontSize(22);
-            // doc.setFont("times", "italic");
-            doc.text("Company:", 40, 70);
-            // doc.line(40, 68, 90, 68)
             doc.setFontSize(17);
-            doc.text(`PBTI`, 138, 70);
+            doc.text("Company:", 40, 70,);
+            doc.setFontSize(17);
+            doc.text(`PBTI`, 130, 70);
 
-            doc.setFontSize(12);
-            doc.text("Address:", 40, 90);
             doc.setFontSize(9);
-            doc.text(
-              "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
-              90,
-              80
-            );
+            doc.text("Address:", 40, 85);
+            // doc.text("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 85);
+            var companyAddress = doc.splitTextToSize("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 180 - 0 - 0);
+            doc.text(companyAddress, 80, 85);
 
-            doc.setFontSize(12);
-            doc.text("Phone:", 40, 140);
-            doc.setFontSize(9);
-            doc.text("8282822924", 80, 140);
-            doc.setFontSize(12);
-            doc.text("Website:", 40, 160);
-            doc.setFontSize(9);
-            doc.text("www.paapri.com", 90, 160);
+            var companyAddressDimension = doc.getTextDimensions(companyAddress);
+
+
+            doc.setTextColor(0, 0, 0);
+            doc.text("Phone: ", 40, companyAddressDimension.h + 95);
+            doc.text(`${res.data.document.phone ? res.data.document.phone : "123-456-7890"}`, 78, companyAddressDimension.h + 95);
+
+            doc.text("Website:", 40, companyAddressDimension.h + 105);
+            doc.text("www.paapri.com", 80, companyAddressDimension.h + 105);
+
+
 
             doc.setDrawColor(255, 0, 0);
             doc.setFillColor(230, 230, 230);
-            doc.rect(40, 175, 200, 20, "F");
+            doc.rect(40, companyAddressDimension.h + 125, 200, 20, "F");
             doc.setFontSize(12);
             doc.setTextColor(0, 0, 0);
-            doc.text("Bill To:", 45, 190);
-            // doc.setTextColor(0, 0, 0);
-            // doc.text("Name:", 43, 210);
+            doc.text("Bill To:", 45, companyAddressDimension.h + 140);
             doc.setFontSize(9);
-            doc.text(`${res.data.document.name}`, 43, 205);
-            doc.text(`${res.data.document.address}`, 43, 220);
-            // doc.setDrawColor(255, 0, 0);
-            // doc.setFillColor(230, 230, 230);
-            // doc.rect(355, 175, 200, 20, "F");
-            doc.setFontSize(12);
-            doc.setTextColor(0, 0, 0);
-            // doc.text("Source Document:", 360, 190);
-            if (bill.sourceDocument) {
-              doc.text(`${bill.sourceDocument.name}`, 440, 90);
-            }
+            doc.text(`${res.data.document.name}`, 43, companyAddressDimension.h + 160);
+            var billAddress = doc.splitTextToSize(
+              `${res.data.document.address}`,
+              180 - 0 - 0
+            );
+            doc.text(billAddress, 43, companyAddressDimension.h + 170);
 
-            // doc.setTextColor(0, 0, 0);
-            // doc.text("Name & Address:", 358, 210);
-            doc.setFontSize(30);
-            // doc.setFont("Sans-serif");
+            var billAddressDimension = doc.getTextDimensions(billAddress);
+
+            doc.setFontSize(25);
             doc.setTextColor(0, 0, 0);
-            doc.text("Bill", 260, 40);
+            doc.text("BILL", pageWidth / 2 - doc.getTextWidth("BILL") / 2, 40);
             let height = 200;
 
             // Restructure line items
@@ -240,7 +284,7 @@ const PurchaseOrderPDF = {
             console.log(array);
 
             doc.autoTable({
-              margin: { top: 280 },
+              margin: { top: 180 + billAddressDimension.h + companyAddressDimension.h },
               styles: {
                 lineColor: [153, 153, 153],
                 lineWidth: 1,
@@ -273,36 +317,27 @@ const PurchaseOrderPDF = {
               didDrawPage: (d) => (height = d.cursor.y), // calculate height of the autotable dynamically
             });
 
+
             let h = height + 30;
 
-            // Calculate taxes
+            // // Calculate taxes
             let totalTaxAmount = 0;
             bill.invoiceLines.map((e) => {
               totalTaxAmount += parseFloat((e.subTotal * e.taxes) / 100);
             });
 
+            doc.line(430, h, 555, h);
             doc.setTextColor(0, 0, 0);
             doc.setFontSize(10);
-            // doc.text("CGST: ", 460, h);
-            // // doc.text(`${bill.estimation?.cgst}`, 490, h);
-            // doc.text(`${parseFloat(totalTaxAmount / 2).toFixed(2)}`, 490, h);
-            // doc.text("SGST: ", 460, h + 10);
-            // doc.text(
-            //   `${parseFloat(totalTaxAmount / 2).toFixed(2)}`,
-            //   490,
-            //   h + 10
-            // );
-            // doc.text("IGST: ", 460, h + 20);
-            // doc.text(`${totalTaxAmount}`, 490, h + 20);
-            doc.line(460, h + 30, 560, h + 30);
-            console.log(parseFloat(totalTaxAmount / 2));
-            console.log(parseFloat(totalTaxAmount / 2).toFixed(2));
-            doc.text("Total: ", 460, h + 40);
-            doc.text(`${parseFloat(bill.total).toFixed(2)}`, 490, h + 40);
-            doc.line(460, h + 50, 560, h + 50);
+            doc.text("TAX:", 430, h + 15);
+            doc.text(`${totalTaxAmount.toFixed(2)}`, pageWidth - doc.getTextWidth(`${totalTaxAmount.toFixed(2)}`) - 40, h + 15,);
 
             doc.setTextColor(0, 0, 0);
-            doc.setFontSize(10);
+            doc.setFontSize(12);
+            doc.text("TOTAL:", 430, h + 35);
+            doc.line(430, h + 40, 555, h + 40);
+            doc.text(`${bill?.total.toFixed(2)}`, pageWidth - doc.getTextWidth(`${bill?.total.toFixed(2)}`) - 40, h + 35,);
+
             const pageCount = doc.internal.getNumberOfPages();
 
             doc.text(`${pageCount}`, 300, 820);
@@ -316,123 +351,277 @@ const PurchaseOrderPDF = {
     });
   },
 
-  //BILL PAYEMENT PDF
-  // generateBillPaymentPDF(billPaymentId) {
-  //     console.log(billPaymentId)
-  //     ApiService.setHeader();
-  //     ApiService.get('billPayment/' + billPaymentId).then(response => {
-  //         console.log(response);
-  //         if (response.data.isSuccess) {
-  //             const billPayment = response.data.document;
+  //BILL PAYMENT PDF
+  // generateBillPaymentPDF(billId) {
+  //   console.log(billId)
+  //   ApiService.setHeader();
+  //   ApiService.get("billPayment/forpdf/" + billId).then((response) => {
+  //     console.log(response);
+  //     if (response.data.isSuccess) {
+  //       const bill = response.data.document;
+  //       ApiService.get("vendor/" + bill.vendor).then((res) => {
+  //         if (res.data.isSuccess) {
+  //           console.log(res.data.document);
+  //           let Products = new Array();
+  //           var doc = new jsPDF("p", "pt", "a4");
+  //           var pageWidth = doc.internal.pageSize.getWidth();
+  //           var pageHeight = doc.internal.pageSize.getHeight();
 
-  //             let Products = new Array();
-  //             var doc = new jsPDF('p', 'pt', 'a4');
 
-  //             doc.setDrawColor(0);
-  //             doc.setFillColor(255, 255, 255);
-  //             doc.rect(0, 0, 700, 40, "F");
-  //             doc.setFontSize(12);
-  //             doc.text("Date:", 430, 90);
-  //             doc.text(`${billPayment.date?.slice(0, 10)}`, 460, 90);
-  //             // doc.rect(460, 62, 90, 15);
-  //             doc.setFontSize(17);
-  //             doc.setFont("bold");
-  //             // doc.text("PO#:", 430, 95);
-  //             //POO number
-  //             doc.text(`${billPayment.name}`, 460, 70);
-  //             // doc.rect(460, 77, 90, 15);
+  //           doc.setDrawColor(0);
+  //           doc.setFillColor(255, 255, 255);
+  //           doc.rect(0, 0, 700, 40, "F");
+  //           doc.setFontSize(9);
+  //           doc.text("Date:", 480, 85);
+  //           doc.text(`${bill.billDate?.slice(0, 10)}`, pageWidth - doc.getTextWidth(`${bill.billDate?.slice(0, 10)}`) - 40, 85,);
+  //           doc.setFontSize(17);
+  //           doc.text(`${bill.name}`, pageWidth - doc.getTextWidth(`${bill.name}`) - 40, 70,);
 
-  //             doc.setFontSize(22);
-  //             // doc.setFont("times", "italic");
-  //             doc.text("Company:", 40, 70);
-  //             // doc.line(40, 68, 90, 68)
-  //             doc.setFontSize(17);
-  //             doc.text(`PBTI`, 138, 70);
+  //           doc.setFontSize(17);
+  //           doc.text("Company:", 40, 70,);
+  //           doc.setFontSize(17);
+  //           doc.text(`PBTI`, 130, 70);
 
-  //             doc.setFontSize(12);
-  //             doc.text("Address:", 40, 90);
-  //             doc.setFontSize(9);
-  //             doc.text("\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 80);
+  //           doc.setFontSize(9);
+  //           doc.text("Address:", 40, 85);
+  //           // doc.text("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 85);
+  //           var companyAddress = doc.splitTextToSize("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 180 - 0 - 0);
+  //           doc.text(companyAddress, 80, 85);
 
-  //             doc.setFontSize(12);
-  //             doc.text("Phone:", 40, 140);
-  //             doc.setFontSize(9);
-  //             doc.text("8282822924", 80, 140);
-  //             doc.setFontSize(12);
-  //             doc.text("Website:", 40, 160);
-  //             doc.setFontSize(9);
-  //             doc.text("www.paapri.com", 90, 160);
-  //             // doc.text("Website:", 40, 200);
+  //           var companyAddressDimension = doc.getTextDimensions(companyAddress);
 
-  //             doc.setDrawColor(255, 0, 0);
-  //             doc.setFillColor(102, 194, 255);
-  //             doc.rect(40, 175, 200, 20, "F");
-  //             doc.setFontSize(12);
-  //             doc.setTextColor(0, 0, 0);
-  //             doc.text("Billed To:", 45, 190);
-  //             doc.setTextColor(0, 0, 0);
-  //             doc.text("Name & Address:", 43, 210);
-  //             doc.setFontSize(9);
-  //             doc.text(`${billPayment.vendor.name}`, 43, 220);
-  //             doc.text(`${billPayment.vendor.address}`, 43, 230);
-  //             // doc.setDrawColor(255, 0, 0);
-  //             // doc.setFillColor(102, 194, 255);
-  //             // doc.rect(355, 175, 200, 20, "F");
-  //             // doc.setFontSize(12);
-  //             // doc.setTextColor(0, 0, 0);
-  //             // doc.text("Ship To:", 360, 190);
-  //             // doc.setTextColor(0, 0, 0);
-  //             // doc.text("Name & Address:", 358, 210);
-  //             doc.setFontSize(30);
-  //             doc.setFont('Sans-serif');
-  //             doc.setTextColor(255, 255, 255);
-  //             doc.text("Print Bill", 220, 28);
-  //             let height = 200;
 
-  //             doc.autoTable({
+  //           doc.setTextColor(0, 0, 0);
+  //           doc.text("Phone: ", 40, companyAddressDimension.h + 95);
+  //           doc.text(`${res.data.document.phone ? res.data.document.phone : "123-456-7890"}`, 78, companyAddressDimension.h + 95);
 
-  //                 margin: { top: 280 },
-  //                 styles: {
-  //                     lineColor: [102, 194, 255],
-  //                     lineWidth: 1,
-  //                     fillColor: [102, 194, 255],
+  //           doc.text("Website:", 40, companyAddressDimension.h + 105);
+  //           doc.text("www.paapri.com", 80, companyAddressDimension.h + 105);
 
-  //                 },
-  //                 columnStyles: {
-  //                     europe: { halign: 'center' },
-  //                     0: { cellWidth: 88 },
-  //                     2: { cellWidth: 40, halign: 'center' },
-  //                     3: { cellWidth: 57, halign: 'right' },
-  //                     4: { cellWidth: 65 },
-  //                     5: { cellWidth: 65, halign: 'right' },
-  //                 },
-  //                 body: billPayment.products,
-  //                 columns: [
-  //                     { header: 'Journal Type', dataKey: 'journalType' },
-  //                     // { header: 'Cash', dataKey: 'cash' },
-  //                     { header: 'Amount', dataKey: 'amount', halign: 'center' },
-  //                     { header: 'Recipient Bank', dataKey: 'recipientBank', halign: 'center' },
-  //                     { header: 'Payment Date', dataKey: 'paymentDate', halign: 'center' },
-  //                     { header: 'Memo', dataKey: 'memo' },
-  //                     // { header: 'Sub Total', dataKey: 'subTotal' },
-  //                 ],
-  //                 didDrawPage: (d) => height = d.cursor.y,// calculate height of the autotable dynamically
-  //             })
 
-  //             let h = height + 30;
 
-  //             doc.setTextColor(0, 0, 0);
-  //             doc.setFontSize(10);
-  //             const pageCount = doc.internal.getNumberOfPages();
+  //           doc.setDrawColor(255, 0, 0);
+  //           doc.setFillColor(230, 230, 230);
+  //           doc.rect(40, companyAddressDimension.h + 125, 200, 20, "F");
+  //           doc.setFontSize(12);
+  //           doc.setTextColor(0, 0, 0);
+  //           doc.text("Bill To:", 45, companyAddressDimension.h + 140);
+  //           doc.setFontSize(9);
+  //           doc.text(`${res.data.document.name}`, 43, companyAddressDimension.h + 160);
+  //           var billAddress = doc.splitTextToSize(
+  //             `${res.data.document.address}`,
+  //             180 - 0 - 0
+  //           );
+  //           doc.text(billAddress, 43, companyAddressDimension.h + 170);
 
-  //             doc.text(`${pageCount}`, 300, 820);
-  //             doc.save(`Bill Payment - ${billPayment.name}.pdf`);
+  //           var billAddressDimension = doc.getTextDimensions(billAddress);
 
+  //           doc.setFontSize(25);
+  //           doc.setTextColor(0, 0, 0);
+  //           doc.text("BILL", pageWidth / 2 - doc.getTextWidth("BILL") / 2, 40);
+  //           let height = 200;
+
+  //           // Restructure line items
+  //           let array = new Array();
+  //           response?.data?.newinvoiceLines?.map((e) => {
+  //             let obj = new Object();
+
+  //             obj.productName = e.productName;
+  //             obj.label = e.label;
+  //             // obj.accountName = e.accountName;
+  //             obj.quantity = e.quantity;
+  //             obj.unitPrice = e.unitPrice.toFixed(2);
+  //             obj.taxes = e.taxes + "%";
+  //             obj.subTotal = e.subTotal.toFixed(2);
+  //             array.push(obj);
+  //           });
+  //           console.log(array);
+
+  //           doc.autoTable({
+  //             margin: { top: 180 + billAddressDimension.h + companyAddressDimension.h },
+  //             styles: {
+  //               lineColor: [153, 153, 153],
+  //               lineWidth: 1,
+  //               fillColor: [179, 179, 179],
+  //             },
+  //             columnStyles: {
+  //               europe: { halign: "center" },
+  //               0: { cellWidth: 88 },
+  //               2: { cellWidth: 80, halign: "center" },
+  //               3: { cellWidth: 50, halign: "right" },
+  //               4: { cellWidth: 65 },
+  //               5: { cellWidth: 40, halign: "right" },
+  //               6: { cellWidth: 88, halign: "left" },
+  //             },
+  //             // body: response.data.newinvoiceLines,
+  //             body: array,
+  //             columns: [
+  //               { header: "Product", dataKey: "productName" },
+  //               { header: "Label", dataKey: "label" },
+  //               // {
+  //               //   header: "Account",
+  //               //   dataKey: "accountName",
+  //               //   halign: "center",
+  //               // },
+  //               { header: "Quantity", dataKey: "quantity", halign: "center" },
+  //               { header: "Unit Price", dataKey: "unitPrice" },
+  //               // { header: "Taxes", dataKey: "taxes" },
+  //               { header: "Sub Total", dataKey: "subTotal" },
+  //             ],
+  //             didDrawPage: (d) => (height = d.cursor.y), // calculate height of the autotable dynamically
+  //           });
+
+
+  //           let h = height + 30;
+
+  //           // // Calculate taxes
+  //           let totalTaxAmount = 0;
+  //           bill.invoiceLines.map((e) => {
+  //             totalTaxAmount += parseFloat((e.subTotal * e.taxes) / 100);
+  //           });
+
+  //           doc.line(430, h, 555, h);
+  //           doc.setTextColor(0, 0, 0);
+  //           doc.setFontSize(10);
+  //           doc.text("TAX:", 430, h + 15);
+  //           doc.text(`${totalTaxAmount.toFixed(2)}`, pageWidth - doc.getTextWidth(`${totalTaxAmount.toFixed(2)}`) - 40, h + 15,);
+
+  //           doc.setTextColor(0, 0, 0);
+  //           doc.setFontSize(12);
+  //           doc.text("TOTAL:", 430, h + 35);
+  //           doc.line(430, h + 40, 555, h + 40);
+  //           doc.text(`${bill?.total.toFixed(2)}`, pageWidth - doc.getTextWidth(`${bill?.total.toFixed(2)}`) - 40, h + 35,);
+
+  //           const pageCount = doc.internal.getNumberOfPages();
+
+  //           doc.text(`${pageCount}`, 300, 820);
+
+  //           doc.save(`Bill - ${bill.name}.pdf`);
+  //         } else {
+  //           alert("something wrong in geting vendor!!!");
   //         }
-
-  //     })
-
+  //       });
+  //     }
+  //   });
   // },
+
+  //BILL PAYEMENT PDF
+  generateBillPaymentPDF(billPaymentId) {
+    console.log(billPaymentId)
+    ApiService.setHeader();
+    // ApiService.get('billPayment/' + billPaymentId).then(response => {
+    //   console.log(response);
+    //   if (response.data.isSuccess) {
+    //     const billPayment = response.data.document;
+
+    //     let Products = new Array();
+    //     var doc = new jsPDF('p', 'pt', 'a4');
+
+    //     doc.setDrawColor(0);
+    //     doc.setFillColor(255, 255, 255);
+    //     doc.rect(0, 0, 700, 40, "F");
+    //     doc.setFontSize(12);
+    //     doc.text("Date:", 430, 90);
+    //     doc.text(`${billPayment.date?.slice(0, 10)}`, 460, 90);
+    //     // doc.rect(460, 62, 90, 15);
+    //     doc.setFontSize(17);
+    //     doc.setFont("bold");
+    //     // doc.text("PO#:", 430, 95);
+    //     //POO number
+    //     doc.text(`${billPayment.name}`, 460, 70);
+    //     // doc.rect(460, 77, 90, 15);
+
+    //     doc.setFontSize(22);
+    //     // doc.setFont("times", "italic");
+    //     doc.text("Company:", 40, 70);
+    //     // doc.line(40, 68, 90, 68)
+    //     doc.setFontSize(17);
+    //     doc.text(`PBTI`, 138, 70);
+
+    //     doc.setFontSize(12);
+    //     doc.text("Address:", 40, 90);
+    //     doc.setFontSize(9);
+    //     doc.text("\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 80);
+
+    //     doc.setFontSize(12);
+    //     doc.text("Phone:", 40, 140);
+    //     doc.setFontSize(9);
+    //     doc.text("8282822924", 80, 140);
+    //     doc.setFontSize(12);
+    //     doc.text("Website:", 40, 160);
+    //     doc.setFontSize(9);
+    //     doc.text("www.paapri.com", 90, 160);
+    //     // doc.text("Website:", 40, 200);
+
+    //     doc.setDrawColor(255, 0, 0);
+    //     doc.setFillColor(102, 194, 255);
+    //     doc.rect(40, 175, 200, 20, "F");
+    //     doc.setFontSize(12);
+    //     doc.setTextColor(0, 0, 0);
+    //     doc.text("Billed To:", 45, 190);
+    //     doc.setTextColor(0, 0, 0);
+    //     doc.text("Name & Address:", 43, 210);
+    //     doc.setFontSize(9);
+    //     doc.text(`${billPayment.vendor.name}`, 43, 220);
+    //     doc.text(`${billPayment.vendor.address}`, 43, 230);
+    //     // doc.setDrawColor(255, 0, 0);
+    //     // doc.setFillColor(102, 194, 255);
+    //     // doc.rect(355, 175, 200, 20, "F");
+    //     // doc.setFontSize(12);
+    //     // doc.setTextColor(0, 0, 0);
+    //     // doc.text("Ship To:", 360, 190);
+    //     // doc.setTextColor(0, 0, 0);
+    //     // doc.text("Name & Address:", 358, 210);
+    //     doc.setFontSize(30);
+    //     doc.setFont('Sans-serif');
+    //     doc.setTextColor(255, 255, 255);
+    //     doc.text("Print Bill", 220, 28);
+    //     let height = 200;
+
+    //     doc.autoTable({
+
+    //       margin: { top: 280 },
+    //       styles: {
+    //         lineColor: [102, 194, 255],
+    //         lineWidth: 1,
+    //         fillColor: [102, 194, 255],
+
+    //       },
+    //       columnStyles: {
+    //         europe: { halign: 'center' },
+    //         0: { cellWidth: 88 },
+    //         2: { cellWidth: 40, halign: 'center' },
+    //         3: { cellWidth: 57, halign: 'right' },
+    //         4: { cellWidth: 65 },
+    //         5: { cellWidth: 65, halign: 'right' },
+    //       },
+    //       body: billPayment.products,
+    //       columns: [
+    //         { header: 'Journal Type', dataKey: 'journalType' },
+    //         // { header: 'Cash', dataKey: 'cash' },
+    //         { header: 'Amount', dataKey: 'amount', halign: 'center' },
+    //         { header: 'Recipient Bank', dataKey: 'recipientBank', halign: 'center' },
+    //         { header: 'Payment Date', dataKey: 'paymentDate', halign: 'center' },
+    //         { header: 'Memo', dataKey: 'memo' },
+    //         // { header: 'Sub Total', dataKey: 'subTotal' },
+    //       ],
+    //       didDrawPage: (d) => height = d.cursor.y,// calculate height of the autotable dynamically
+    //     })
+
+    //     let h = height + 30;
+
+    //     doc.setTextColor(0, 0, 0);
+    //     doc.setFontSize(10);
+    //     const pageCount = doc.internal.getNumberOfPages();
+
+    //     doc.text(`${pageCount}`, 300, 820);
+    //     doc.save(`Bill Payment - ${billPayment.name}.pdf`);
+
+    //   }
+
+    // })
+
+  },
 
   generatePurchaseOrderPDF(purchaseOrderId) {
     console.log(purchaseOrderId);
@@ -445,92 +634,73 @@ const PurchaseOrderPDF = {
             if (res.data.isSuccess) {
               let products = new Array();
               var doc = new jsPDF("p", "pt", "a4");
+              var pageWidth = doc.internal.pageSize.getWidth();
+              var pageHeight = doc.internal.pageSize.getHeight();
+
+              console.log(pageWidth, pageHeight);
+
               //header color
+              // doc.setFont("helvetica", "bold");
               doc.setDrawColor(0);
               doc.setFillColor(255, 255, 255);
               doc.rect(0, 0, 700, 40, "F");
-              doc.setFontSize(12);
-              doc.text("Date:", 460, 90);
-              doc.text(`${purchaseOrder.date?.slice(0, 10)}`, 490, 90);
-              // doc.rect(460, 62, 90, 15);
-              doc.setFontSize(17);
-              doc.setFont("bold");
-              // doc.text("PO#:", 430, 95);
-              //POO number
-              doc.text(`${purchaseOrder.name}`, 460, 70);
-              // doc.rect(460, 77, 90, 15);
-
-              doc.setFontSize(22);
-              // doc.setFont("times", "italic");
-              doc.text("Company:", 40, 70);
-              // doc.line(40, 68, 90, 68)
-              doc.setFontSize(17);
-              doc.text(`PBTI`, 138, 70);
-
-              // doc.setFontSize(12);
-              // doc.text("Address:", 40, 90);
-              // doc.setFontSize(9);
-              // doc.text("\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 90, 80);
-
-              // doc.setFontSize(9);
-              // doc.text("8282822924", 80, 140);
-              doc.setFontSize(12);
-              doc.text("Website:", 40, 90);
               doc.setFontSize(9);
-              doc.text("www.paapri.com", 90, 90);
-              // doc.text("Website:", 40, 200);
+              doc.text("Date:", 480, 85);
+              doc.text(`${purchaseOrder.date?.slice(0, 10)}`, pageWidth - doc.getTextWidth(`${purchaseOrder.date?.slice(0, 10)}`) - 40, 85,);
+              doc.setFontSize(17);
+              doc.text(`${purchaseOrder.name}`, pageWidth - doc.getTextWidth(`${purchaseOrder.name}`) - 40, 70,);
+
+              doc.setFontSize(17);
+              doc.text("Company:", 40, 70,);
+              doc.setFontSize(17);
+              doc.text(`PBTI`, 130, 70);
+
+              doc.setFontSize(9);
+              doc.text("Website:", 40, 85,);
+              doc.setFontSize(9);
+              doc.text("www.paapri.com", 80, 85);
 
               doc.setDrawColor(255, 0, 0);
               doc.setFillColor(230, 230, 230);
-              doc.rect(40, 175, 200, 20, "F");
+              doc.rect(40, 105, 200, 20, "F");
               doc.setFontSize(12);
               doc.setTextColor(0, 0, 0);
-              doc.text("Vendor:", 45, 190);
+              doc.text("Vendor:", 45, 120);
               doc.setTextColor(0, 0, 0);
-              // doc.text("Name & Address:", 45, 210);
               doc.setFontSize(9);
-              doc.text(`${res.data.document.name}`, 43, 210);
+              doc.text(`${res.data.document.name}`, 43, 140);
               var vendorAddress = doc.splitTextToSize(
                 `${res.data.document.address}`,
                 180 - 0 - 0
               );
-              doc.text(vendorAddress, 43, 220);
+              doc.text(vendorAddress, 43, 150);
 
               var vendorAddressDimension = doc.getTextDimensions(vendorAddress);
-              doc.setFontSize(12);
+              doc.setFontSize(9);
               doc.setTextColor(0, 0, 0);
-              doc.text("Phone:", 42, vendorAddressDimension.h + 230);
+              doc.text("Phone: ", 42, vendorAddressDimension.h + 160);
               doc.text(
                 `${res.data.document.phone}`,
                 78,
-                vendorAddressDimension.h + 230
+                vendorAddressDimension.h + 160
               );
               doc.setFontSize(12);
               doc.setTextColor(0, 0, 0);
-              // doc.text("Phone:", 42, 273);
-              // doc.text(`${res.data.document.phone}`, 78, 273);
               doc.setDrawColor(255, 0, 0);
               doc.setFillColor(230, 230, 230);
-              doc.rect(355, 175, 200, 20, "F");
+              doc.rect(355, 105, 200, 20, "F");
               doc.setFontSize(12);
               doc.setTextColor(0, 0, 0);
-              doc.text("Ship To:", 360, 190);
+              doc.text("Ship To:", 360, 120);
               doc.setTextColor(0, 0, 0);
               doc.setFontSize(9);
-              doc.text("Address :", 360, 210);
-              doc.text(
-                "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
-                360,
-                213
-              );
+              doc.text("Address :", 360, 140);
+              doc.text("Webel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091", 400, 140);
 
-              doc.setFontSize(9);
-              // doc.text(`${purchaseOrder.name}`, 358, 220);
-              // doc.text(`${purchaseOrder.address}`, 358, 230);
-              doc.setFontSize(30);
-              doc.setFont("Sans-serif");
+
+              doc.setFontSize(25);
               doc.setTextColor(0, 0, 0);
-              doc.text("Purchase Order", 210, 40);
+              doc.text("PURCHASE ORDER", pageWidth / 2 - doc.getTextWidth("PURCHASE ORDER") / 2, 40);
               let height = 200;
 
               // reconstract the line item array
@@ -551,8 +721,7 @@ const PurchaseOrderPDF = {
               // Create the table of products data
               if (array.length) {
                 doc.autoTable({
-                  // margin: { top: 280 },
-                  margin: { top: 250 + vendorAddressDimension.h },
+                  margin: { top: 180 + vendorAddressDimension.h },
                   styles: {
                     lineColor: [153, 153, 153],
                     lineWidth: 1,
@@ -566,7 +735,6 @@ const PurchaseOrderPDF = {
                     4: { cellWidth: 65 },
                     5: { cellWidth: 65, halign: "right" },
                   }, // European countries centered
-                  // body: purchaseOrder.products,
                   body: array,
                   columns: [
                     { header: "Product", dataKey: "name" },
@@ -579,8 +747,6 @@ const PurchaseOrderPDF = {
                     },
                     { header: "GST", dataKey: "taxes" },
                     { header: "Amount", dataKey: "subTotal" },
-                    // { header: 'Cgst', dataKey: 'cgst' },
-                    // { header: 'Sgst', dataKey: 'sgst' },
                   ],
                   didDrawPage: (d) => (height = d.cursor.y), // calculate height of the autotable dynamically
                 });
@@ -592,49 +758,18 @@ const PurchaseOrderPDF = {
 
               let h = height + 30;
 
-              // var formatter = new Intl.NumberFormat('en-in', {
-              //     style: 'currency',
-              //     currency: 'INR',
-              // });
-
-              // var currencyFormatted = formatter.format(purchaseOrder.estimation?.total);
-
-              // doc.setTextColor(0, 0, 0);
-              // doc.setFontSize(10);
-              // doc.text("Total:", 460, h);
-              // doc.text(`${purchaseOrder.estimation?.total}`, 490, h);
-
+              doc.line(430, h, 555, h);
               doc.setTextColor(0, 0, 0);
               doc.setFontSize(10);
-              doc.text("TAX:", 460, h + 10);
-              doc.text(
-                `${purchaseOrder?.estimation?.tax?.toFixed(2)}`,
-                490,
-                h + 10
-              );
-              // doc.text("SGST:", 460, h + 20);
-              // doc.text(
-              //   `${purchaseOrder?.estimation?.sgst?.toFixed(2)}`,
-              //   490,
-              //   h + 20
-              // );
-              // doc.text("IGST:", 460, h + 20);
-              // doc.text(`${purchaseOrder.estimation?.igst}`, 490, h + 20);
-              doc.line(460, h + 30, 550, h + 30);
+              doc.text("TAX:", 430, h + 15);
+              doc.text(`${purchaseOrder?.estimation?.tax?.toFixed(2)}`, pageWidth - doc.getTextWidth(`${purchaseOrder?.estimation?.tax?.toFixed(2)}`) - 40, h + 15,);
 
               doc.setTextColor(0, 0, 0);
               doc.setFontSize(12);
-              doc.text("TOTAL:", 440, h + 45);
-              doc.line(460, h + 50, 550, h + 50);
-              doc.text(
-                `${purchaseOrder?.estimation?.total?.toFixed(2)}`,
-                490,
-                h + 45
-              );
+              doc.text("TOTAL:", 430, h + 35);
+              doc.line(430, h + 40, 555, h + 40);
+              doc.text(`${purchaseOrder?.estimation?.total?.toFixed(2)}`, pageWidth - doc.getTextWidth(`${purchaseOrder?.estimation?.total?.toFixed(2)}`) - 40, h + 35,);
 
-              // doc.text("taxes:", 40, h);
-              // doc.text('${}', 80, h);
-              // doc.text(`Total: ${currencyFormatted}`, 380, h);
               const pageCount = doc.internal.getNumberOfPages();
 
               doc.text(`${pageCount}`, 300, 820);
@@ -1515,8 +1650,7 @@ const BarcodePDF = {
               50 + i * 110
             );
             doc.text(
-              `Price: Rs. ${
-                data?.incomeAccount ? data?.salesPrice : data?.subTotal
+              `Price: Rs. ${data?.incomeAccount ? data?.salesPrice : data?.subTotal
               }`,
               95 + j * 300,
               65 + i * 110

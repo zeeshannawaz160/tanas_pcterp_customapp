@@ -125,14 +125,14 @@ export default function BOM() {
                     <Row>
                         <Col className='p-0 ps-2'>
                             <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
-                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/boms/list` }}>   <div className='breadcrum-label'>BILL of MATERIALS</div></Breadcrumb.Item>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/boms/list` }}>   <div className='breadcrum-label'>BILL OF MATERIALS</div></Breadcrumb.Item>
                                 {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >
                                     {state?.name}
                                 </Breadcrumb.Item>}
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
+                    <Row>
                         <Col className='p-0 ps-1'>
                             {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
                             <Button as={Link} to={`/${rootPath}/boms/list`} variant="secondary" size="sm">DISCARD</Button>

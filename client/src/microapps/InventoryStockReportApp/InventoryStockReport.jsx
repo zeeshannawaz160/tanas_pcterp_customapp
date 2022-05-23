@@ -129,52 +129,54 @@ export default function InventoryStockReport() {
     }
 
     return (
-        <Container className="pct-app-content-container p-0 m-0" fluid>
-            <Container className="pct-app-content" fluid>
-                <Container className="pct-app-content-header p-0 m-0 mt-2 pb-2" fluid>
+        <AppContentForm>
+            <AppContentHeader>
+                <Container fluid >
                     <Row>
-                        <Col>
-                            <h3>INVENTORY STOCKS REPORT</h3>
-                            {/* <Breadcrumb style={{ fontSize: '24px' }}>
-                                <Breadcrumb.Item linkAs={Link} linkProps={{ to: '/purchase' }} active>Purchase Orders</Breadcrumb.Item>
-                            </Breadcrumb> */}
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item active> <div className='breadcrum-label-active'>INVENTORY STOCKS REPORT</div></Breadcrumb.Item>
+                            </Breadcrumb>
                         </Col>
                     </Row>
                     <Row>
-                        <Col></Col>
-                        <Col md="4" sm="6">
-                            <Row>
-                                <Col md="4"></Col>
-                                <Col md="4"><Button onClick={handlePrintReport} variant="light" size="sm"><span>EXPORT PDF</span></Button></Col>
-                                <Col md="4"><Button onClick={handleExportAsCsv} variant="light" size="sm"><span>EXPORT CSV</span></Button></Col>
-                            </Row>
-                        </Col>
+                        <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                                <div className="buttonGroup__back"></div>
+                            </span>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                                <div><input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input></div>
+                                <div><Button size="sm" onClick={handlePrintReport}>EXPORT PDF</Button></div>
+                                <div><Button size="sm" onClick={handleExportAsCsv}>Export CSV</Button></div>
+                            </span>
+                        </div>
                     </Row>
                 </Container>
-                <Container className="pct-app-content-body p-0 m-0" style={{ height: '100vh' }} fluid>
-                    <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
-                        <AgGridReact
-                            onGridReady={onGridReady}
-                            rowData={state}
-                            columnDefs={columns}
-                            defaultColDef={{
-                                editable: true,
-                                sortable: true,
-                                flex: 1,
-                                minWidth: 100,
-                                filter: true,
-                                resizable: true,
-                                // floatingFilter: true,
-                                minWidth: 200
-                            }}
-                            pagination={true}
-                            paginationPageSize={50}
-                            overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
-                        />
-                    </div>
-                </Container>
-            </Container>
-        </Container>
+
+            </AppContentHeader>
+            <AppContentBody>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
+                    <AgGridReact
+                        onGridReady={onGridReady}
+                        rowData={state}
+                        columnDefs={columns}
+                        defaultColDef={{
+                            editable: true,
+                            sortable: true,
+                            flex: 1,
+                            minWidth: 100,
+                            filter: true,
+                            resizable: true,
+                            minWidth: 200
+                        }}
+                        pagination={true}
+                        paginationPageSize={50}
+                        // overlayNoRowsTemplate="No Purchase Order found. Let's create one!"
+                        overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
+                    />
+                </div>
+            </AppContentBody>
+        </AppContentForm>
     )
 }
 

@@ -84,7 +84,7 @@ export default function OrdersGeneralLedger({ state }) {
                     </Row>
                 </Container> */}
                 <Container className="pct-app-content-body p-0 m-0" style={{ height: '45vh' }} fluid>
-                    <div className="ag-theme-alpine ag-row-hover" style={{ height: '100%', width: '100%' }}>
+                    <div className="ag-theme-alpine ag-row-hover" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                         <AgGridReact
                             onGridReady={onGridReady}
                             rowData={state}

@@ -210,29 +210,27 @@ export default function Invoice() {
     return (
         <AppContentForm onSubmit={handleSubmit(onSubmit)}>
             <AppContentHeader>
-                <Row>
-                    <Col>
-                        <Breadcrumb style={{ fontSize: '24px' }}>
-                            <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: `/${rootPath}/invoices` }} ><h3 className="breadcrum-label">INVOICES ALL</h3></Breadcrumb.Item>
-                            {/* {!isAddMode &&
-                                state?.sourceDocument ? <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/accounting/customerinvoices/edit/${state?.sourceDocument?.id}?mode=view` }} ><span className="breadcrum-label">{state?.sourceDocument?.name}</span></Breadcrumb.Item> :
-                                <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/accounting/customerinvoices/edit/${state?.attachedPO?._id}?mode=view` }} ><span className="breadcrum-label">{state?.attachedPO?.name}</span></Breadcrumb.Item>
-                            } */}
-                            {isAddMode ? <Breadcrumb.Item active><span >New</span></Breadcrumb.Item> : <Breadcrumb.Item active><span>{state?.name}</span></Breadcrumb.Item>}
-                        </Breadcrumb>
-                    </Col>
-                </Row>
-                <Row>
-                    <Col>
-                        {isAddMode || state?.status == "Draft" ? <Button type="submit" variant="primary" size="sm">SAVE</Button> : ""}
-                        {/* <Button as={Link} to={state?.attachedPO ? `/accounting/customerinvoices/${state?.attachedPO?._id}` : `/${rootPath}/customerinvoices`} variant="light" size="sm">DISCARD</Button> */}
-                        <Button as={Link} to={rootPath == "sales" ? `/${rootPath}/invoices` : `/${rootPath}/customerinvoices`} variant="light" size="sm">DISCARD</Button>
-                        {!isAddMode && state?.status === "Draft" && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="Actions">
-                            <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
-                        </DropdownButton>}
 
-                    </Col>
-                </Row>
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/customerinvoices` }}>   <div className='breadcrum-label'>INVOICES ALL</div></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >{state?.name}</Breadcrumb.Item>}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className='p-0 ps-1'>
+                            {isAddMode || state?.status == "Draft" ? <Button type="submit" variant="primary" size="sm">SAVE</Button> : ""}
+                            {/* <Button as={Link} to={state?.attachedPO ? `/accounting/customerinvoices/${state?.attachedPO?._id}` : `/${rootPath}/customerinvoices`} variant="light" size="sm">DISCARD</Button> */}
+                            <Button as={Link} to={rootPath == "sales" ? `/${rootPath}/invoices` : `/${rootPath}/customerinvoices`} variant="light" size="sm">DISCARD</Button>
+                            {!isAddMode && state?.status === "Draft" && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="Actions">
+                                <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
+                            </DropdownButton>}
+                        </Col>
+                    </Row>
+                </Container>
 
             </AppContentHeader>
             <AppContentBody>

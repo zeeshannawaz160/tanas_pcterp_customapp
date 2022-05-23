@@ -7,6 +7,9 @@ import { BsBoxArrowInUpRight, BsEyeFill } from 'react-icons/bs';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
 import { useHistory, useParams } from 'react-router';
 import ApiService from '../../helpers/ApiServices';
+import AppContentForm from '../../pcterp/builder/AppContentForm';
+import AppContentHeader from '../../pcterp/builder/AppContentHeader';
+import AppContentBody from '../../pcterp/builder/AppContentBody';
 const moment = require('moment');
 
 export default function PriceChartList() {
@@ -86,14 +89,17 @@ export default function PriceChartList() {
     //     )
     // }
     return (
-        <Container className="pct-app-content-container p-0 m-0" fluid>
-            <Container className="pct-app-content" fluid>
-                <Container className="pct-app-content-header p-0 m-0 pb-2" fluid>
+        <AppContentForm>
+            <AppContentHeader>
+                <Container fluid >
                     <Row>
-                        <Col><h3>Price Chart</h3></Col>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item active> <div className='breadcrum-label-active'>PRICE CHART</div></Breadcrumb.Item>
+                            </Breadcrumb>
+                        </Col>
                     </Row>
-
-                    <Row>
+                    <Row >
                         <Form.Group as={Col} md="4" className="mb-2">
                             <Form.Label className="m-0">Cost</Form.Label>
                             <Form.Control
@@ -113,7 +119,7 @@ export default function PriceChartList() {
                             />
                         </Form.Group>
                         <Form.Group as={Col} md="4" className="mb-2">
-                            <Button variant="primary" size="md" onClick={findMRP} style={{ marginTop: 26 }}>Calculate</Button>
+                            <Button variant="primary" size="md" onClick={findMRP} style={{ marginTop: 24 }}>Calculate</Button>
                         </Form.Group>
                         <Form.Group as={Col} md="4" className="mb-2">
                             <Form.Label className="m-0">MRP</Form.Label>
@@ -127,32 +133,30 @@ export default function PriceChartList() {
                         </Form.Group>
                     </Row>
                 </Container>
-                <Container className="pct-app-content-body p-0 m-0" style={{ height: '100vh' }} fluid>
-                    <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
-                        <AgGridReact
-                            onGridReady={onGridReady}
-                            rowData={state}
-                            columnDefs={columns}
-                            defaultColDef={{
-                                editable: false,
-                                sortable: true,
-                                flex: 1,
-                                minWidth: 100,
-                                filter: true,
-                                resizable: true,
-                                minWidth: 200
-                            }}
-                            pagination={true}
-                            paginationPageSize={50}
-                            overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
-                        />
-                    </div>
+            </AppContentHeader>
+            <AppContentBody>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
+                    <AgGridReact
+                        onGridReady={onGridReady}
+                        rowData={state}
+                        columnDefs={columns}
+                        defaultColDef={{
+                            editable: true,
+                            sortable: true,
+                            flex: 1,
+                            minWidth: 100,
+                            filter: true,
+                            resizable: true,
+                            minWidth: 200
+                        }}
+                        pagination={true}
+                        paginationPageSize={50}
+                        // overlayNoRowsTemplate="No Purchase Order found. Let's create one!"
+                        overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
+                    />
+                </div>
 
-
-                </Container>
-
-
-            </Container>
-        </Container>
+            </AppContentBody>
+        </AppContentForm>
     )
 }

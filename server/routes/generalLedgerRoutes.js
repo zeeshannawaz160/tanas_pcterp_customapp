@@ -11,6 +11,7 @@ const router = express.Router();
 // router.use(authController.protect);
 router.use(authController.protect(Employee));
 
+
 router
   .route("/stats/groupByAccount")
   .get(generalLedgerController.groupByAccount);

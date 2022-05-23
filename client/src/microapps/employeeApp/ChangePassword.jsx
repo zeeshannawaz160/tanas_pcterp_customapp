@@ -8,6 +8,7 @@ import ApiService from '../../helpers/ApiServices';
 import { UserContext } from '../../components/states/contexts/UserContext';
 import { errorMessage } from '../../helpers/Utils';
 import { yupResolver } from '@hookform/resolvers/yup';
+import AppLoader from '../../pcterp/components/AppLoader';
 import * as Yup from 'yup';
 
 const schema = Yup.object().shape({
@@ -18,7 +19,7 @@ const schema = Yup.object().shape({
 
 export default function ChangePassword() {
     const { dispatch, user } = useContext(UserContext)
-    const [loderStatus, setLoderStatus] = useState("NOTHING");
+    const [loderStatus, setLoderStatus] = useState(null);
     const [state, setState] = useState({});
     const [employeeList, setEmployeeList] = useState([]);
     const [departmentList, setDepartmentList] = useState([])
@@ -69,6 +70,13 @@ export default function ChangePassword() {
         }
 
     }, []);
+
+
+    if (loderStatus === "RUNNING") {
+        return (
+            <AppLoader />
+        )
+    }
 
     return (
         <Container className="pct-app-content-container p-0 m-0" fluid >

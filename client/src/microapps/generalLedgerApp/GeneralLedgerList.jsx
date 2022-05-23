@@ -91,7 +91,7 @@ export default function GeneralLedgerList() {
                 </Row>
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

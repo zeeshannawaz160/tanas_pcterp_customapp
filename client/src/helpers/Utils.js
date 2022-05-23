@@ -107,7 +107,7 @@ class TanasUtils {
                 (1 + transportChargePer / 100) *
                 (1 + profitPer / 100) *
                 (1 + gst / 100)) /
-                roundOff
+              roundOff
             ) * roundOff,
         };
 
@@ -481,7 +481,7 @@ const validationOnVendorForm = (data) => {
 };
 
 const isBillAmountEqualPurchaseAmount = (billObj, POData) => {
-  if (billObj.estimation.total == POData.estimation.total) {
+  if (billObj?.estimation?.total == POData?.estimation?.total) {
     return true;
   } else {
     return false;

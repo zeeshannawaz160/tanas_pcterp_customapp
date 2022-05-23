@@ -75,7 +75,7 @@ export default function DocumentList() {
         const column = {
             headerName: '#', field: '_id', sortable: false, filter: false, cellRendererFramework: (params) =>
                 <>
-                    <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/${rootPath}/customapp/edit/${params.value}?doctype=${searchParams.get('doctype')}`}><BsBoxArrowInUpRight /></Button>
+                    <Button style={{ minWidth: "4rem", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} size="sm" as={Link} to={`/${rootPath}/customapp/edit/${params.value}?doctype=${searchParams.get('doctype')}`}><BsBoxArrowInUpRight /></Button>
                     {/* <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/purchase/order/${params.value}?mode=view`}><BsEyeFill /></Button> */}
                 </>
         }
@@ -114,12 +114,11 @@ export default function DocumentList() {
     return (
         <AppContentForm>
             <AppContentHeader>
-                <Container fluid >
+                {/* <Container fluid >
                     <Row>
                         <Col className='p-0 ps-2'>
                             <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
                                 <Breadcrumb.Item active> <div className='breadcrum-label-active'>{model?.label}</div></Breadcrumb.Item>
-                                {/* <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: '/purchase/purchases/list' }}>   <div className='breadcrum-label'>Purchase Orders</div></Breadcrumb.Item> */}
                             </Breadcrumb>
                         </Col>
                     </Row>
@@ -135,11 +134,33 @@ export default function DocumentList() {
                             </Row>
                         </Col>
                     </Row>
+                </Container> */}
+
+
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item active> <div className='breadcrum-label-active'>{model?.label}</div></Breadcrumb.Item>
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                                <div className="buttonGroup__back"><Button as={Link} to={`/${rootPath}/customapp/add?doctype=${searchParams.get('doctype')}`} variant="primary" size="sm">CREATE</Button></div>
+                            </span>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                                <div><input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input></div>
+                                <div><Button size="sm" onClick={handleExportAsCsv}>EXPORT CSV</Button></div>
+                            </span>
+                        </div>
+                    </Row>
                 </Container>
 
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

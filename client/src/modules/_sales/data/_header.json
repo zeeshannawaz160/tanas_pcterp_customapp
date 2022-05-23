@@ -33,6 +33,10 @@
                 "item_navigation": "customers"
               },
               {
+                "item_name": "Customers Import",
+                "item_navigation": "customersimport"
+              },
+              {
                 "item_name": "Customer Invoices",
                 "item_navigation": "invoices"
               },

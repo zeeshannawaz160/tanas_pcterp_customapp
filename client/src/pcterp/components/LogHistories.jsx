@@ -46,11 +46,11 @@ export default function LogHistories({ documentPath, docType, documentId }) {
                             if (diff[key].hasOwnProperty(index)) {
 
                                 if (index.indexOf("_") === -1 && index !== '_t') {
-                                    addedValues += diff[key][index][0].name + ", "
+                                    addedValues += diff[key][index][0]?.name + ", "
 
                                 }
                                 if (index.indexOf("_") !== -1 && index !== '_t') {
-                                    removeValues += diff[key][index][0].name + ", "
+                                    removeValues += diff[key][index][0]?.name + ", "
                                 }
 
                             }

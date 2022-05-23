@@ -42,3 +42,84 @@ exports.getHistories = catchAsync(async (req, res) => {
     documents: historiesDoc
   });
 });
+
+exports.deleteAllCustomers = catchAsync(async (req, res, next) => {
+  await Customer.deleteMany();
+
+  res.status(204).json({
+    isSuccess: true,
+    status: "success",
+    document: null,
+  });
+})
+
+exports.importCustomer = catchAsync(async (req, res, next) => {
+  // console.log(req.body);
+
+  const customersData = req.body;
+  let customers = [];
+  customersData.map(customer => {
+    let existingCustomer = customers?.filter(e => e.EMAIL === customer.EMAIL);
+    if (existingCustomer !== []) {
+      customers.push({
+        name: customer?.['CUSTOMER NAME'],
+        phone: customer?.PHONE,
+        address: customer?.ADDRESS,
+        email: customer?.EMAIL,
+        gstin: customer?.GSTIN,
+        addresses: [{
+          phone: customer?.PHONE,
+          billing: customer?.BILLING,
+          shipping: customer?.SHIPPING,
+          default: customer?.DEFAULT,
+          return: customer?.RETURN,
+          addressee: customer?.ADDRESSEE,
+          address1: customer?.ADDRESS1,
+          address2: customer?.ADDRESS2,
+          address3: customer?.ADDRESS3,
+          address: customer?.ADDRESS,
+          country: customer?.COUNTRY,
+          city: customer?.CITY,
+          state: customer?.STATE,
+          zip: customer?.ZIP
+        }]
+      })
+    } else {
+      const existingCustomerIndex = customers[existingCustomer[0]];
+      existingCustomer[0].addresses.push({
+        phone: customer?.PHONE,
+        billing: customer?.BILLING,
+        shipping: customer?.SHIPPING,
+        default: customer?.DEFAULT,
+        return: customer?.RETURN,
+        addressee: customer?.ADDRESSEE,
+        address1: customer?.ADDRESS1,
+        address2: customer?.ADDRESS2,
+        address3: customer?.ADDRESS3,
+        address: customer?.ADDRESS,
+        country: customer?.COUNTRY,
+        city: customer?.CITY,
+        state: customer?.STATE,
+        zip: customer?.ZIP
+      })
+
+      customers[existingCustomerIndex] = existingCustomer[0];
+    }
+
+  })
+
+
+  await Customer.insertMany(customers)
+    .then(function () {
+      console.log("DATA INSERTED");
+    })
+    .catch(function (error) {
+      console.log(error);
+    });
+
+  res.status(200).json({
+    isSuccess: true,
+    status: "success",
+    documents: null,
+  });
+});

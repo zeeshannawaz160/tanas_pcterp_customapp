@@ -1,5 +1,5 @@
 import { React, useContext, useState, useEffect } from 'react'
-import { Col, Row, Button } from 'react-bootstrap'
+import { Col, Row, Button, Container, Breadcrumb } from 'react-bootstrap'
 import { PropagateLoader } from "react-spinners";
 import { BsBoxArrowInUpRight, BsEyeFill } from 'react-icons/bs';
 import { AgGridColumn, AgGridReact } from 'ag-grid-react';
@@ -56,7 +56,7 @@ export default function AccountList() {
         {
             headerName: ' ', field: 'id', sortable: false, filter: false, cellRendererFramework: (params) =>
                 <>
-                    <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/${rootPath}/accounts/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
+                    <Button style={{ minWidth: "4rem", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} size="sm" as={Link} to={`/${rootPath}/accounts/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
                     {/* <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/employees/employee/${params.value}?mode=view`}><BsEyeFill /></Button> */}
                 </>
         },
@@ -83,24 +83,30 @@ export default function AccountList() {
     return (
         <AppContentForm>
             <AppContentHeader>
-                <Row>
-                    <Col><h4>Accounts</h4></Col>
-                </Row>
-                <Row>
-
-                    <Col>
-                        <Button size="sm" as={Link} to={`/${rootPath}/accounts/add`}>Create</Button>
-                    </Col>
-                    <Col md="4" sm="6">
-                        <Row>
-                            <Col md="8"><input type="text" className="openning-cash-control__amount--input" placeholder="Search here..." onChange={handleSearch}></input></Col>
-                            <Col md="4"><Button onClick={handleExportAsCsv} variant="primary" size="sm"><span>Export CSV</span></Button></Col>
-                        </Row>
-                    </Col>
-                </Row>
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item active> <div className='breadcrum-label-active'>ACCOUNT</div></Breadcrumb.Item>
+                                {/* <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: '/purchase/purchases/list' }}>   <div className='breadcrum-label'>Purchase Orders</div></Breadcrumb.Item> */}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                                <div className="buttonGroup__back"><Button as={Link} to={`/${rootPath}/accounts/add`} variant="primary" size="sm">CREATE</Button></div>
+                            </span>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                                <div><input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input></div>
+                                <div><Button size="sm" onClick={handleExportAsCsv}>Export CSV</Button></div>
+                            </span>
+                        </div>
+                    </Row>
+                </Container>
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

@@ -10,7 +10,7 @@ import AppContentBody from '../../pcterp/builder/AppContentBody'
 import AppContentForm from '../../pcterp/builder/AppContentForm'
 import AppContentHeader from '../../pcterp/builder/AppContentHeader'
 
-export default function PriceChart() {
+export default function CustomersData() {
     const [loderStatus, setLoderStatus] = useState("NOTHING");
     // let { path, url } = useRouteMatch();
     const [state, setState] = useState({});
@@ -62,14 +62,24 @@ export default function PriceChart() {
         try {
             ApiService.setHeader();
 
-            const response = await ApiService.delete('/priceChartUpload/procedure')
-            if (response.data.isSuccess) {
-                const res = await ApiService.post('/priceChartUpload/procedure', xlData)
+            console.log(data.actionType)
+
+            if (data.actionType === 'addNew') {
+                await ApiService.delete('customer');
+                const res = await ApiService.post('customer/import', xlData)
                 if (res.data.isSuccess) {
                     console.log(res.data.documents);
-                    navigate(`/${rootPath}/pricechartlist`);
+                    navigate(`/${rootPath}/customers`);
+                }
+
+            } else if (data.actionType === 'append') {
+                const res = await ApiService.post('customer/import', xlData)
+                if (res.data.isSuccess) {
+                    console.log(res.data.documents);
+                    navigate(`/${rootPath}/customers`);
                 }
             }
+
         } catch (err) {
             alert(err)
         }
@@ -107,26 +117,20 @@ export default function PriceChart() {
     }
 
 
-    return (<AppContentForm>
+    return (<AppContentForm onSubmit={handleSubmit(onSubmit)}>
         <AppContentHeader>
             <Container fluid >
                 <Row>
                     <Col className='p-0 ps-2'>
                         <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
-                            <Breadcrumb.Item active> <div className='breadcrum-label-active'>PRICE CHART UPLOAD</div></Breadcrumb.Item>
+                            <Breadcrumb.Item active> <div className='breadcrum-label-active'>CUSTOMERS IMPORT</div></Breadcrumb.Item>
                         </Breadcrumb>
                     </Col>
                 </Row>
                 <Row>
                     <Col className='p-0 ps-1'>
                         <Button type="submit" variant="primary" size="sm">SAVE</Button>
-                        {/* <Button as={Link} to={`/${url?.split('/')[1]}/bills`} variant="light" size="sm">DISCARD</Button> */}
-                        <Button as={Link} to={`/${rootPath}/pricechartlist`} variant="light" size="sm">DISCARD</Button>
-                        {/* {!isAddMode && state.status !== "Posted" && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="Actions">
-
-                                <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
-                            </DropdownButton>} */}
-
+                        <Button as={Link} to={`/${rootPath}/customers`} variant="light" size="sm">DISCARD</Button>
                     </Col>
                 </Row>
             </Container>
@@ -135,7 +139,15 @@ export default function PriceChart() {
             <Container fluid>
                 <Row>
                     <Form.Group as={Col} md="4" className="mb-2">
-                        <Form.Label className="m-0">Upload file</Form.Label>
+                        <Form.Label className="m-0">ACTION TYPE</Form.Label>
+                        <Form.Select aria-label="Default select example" id="actionType" name="actionType" {...register("actionType")}>
+                            <option value="addNew" selected>Create new Customers</option>
+                            <option value="append">Add to existing Customers</option>
+                        </Form.Select>
+                    </Form.Group>
+
+                    <Form.Group as={Col} md="4" className="mb-2">
+                        <Form.Label className="m-0">UPLOAD FILE</Form.Label>
                         <Form.Control
                             type="file"
                             id="file"
@@ -148,7 +160,6 @@ export default function PriceChart() {
                                 reader.readAsArrayBuffer(e.target.files[0])
                                 reader.onload = (e => {
                                     setxlfile(e.target.result)
-
                                 })
                             }}
                         />

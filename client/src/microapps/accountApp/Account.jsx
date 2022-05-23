@@ -1,6 +1,6 @@
 
 import { React, useState, useEffect } from 'react'
-import { Container, Button, Col, Row, DropdownButton, Dropdown, ButtonGroup } from 'react-bootstrap'
+import { Container, Button, Col, Row, DropdownButton, Dropdown, ButtonGroup, Breadcrumb } from 'react-bootstrap'
 import { useForm } from 'react-hook-form'
 import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import ApiService from '../../helpers/ApiServices'
@@ -111,21 +111,28 @@ export default function Account() {
     return (
         <AppContentForm onSubmit={handleSubmit(onSubmit)}>
             <AppContentHeader>
-                <Row>
-                    <Col><h4>Account</h4></Col>
-                    <Col></Col>
-                </Row>
-                <Col>
-                    <Col>
-                        <Button type="submit" variant="primary" size="sm">SAVE</Button>{" "}
-                        <Button as={Link} to={`/${rootPath}/accounts/list`} variant="light" size="sm">DISCARD</Button>
-                        {!isAddMode && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="ACTION">
-                            <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
-                        </DropdownButton>}
-                    </Col>
-                </Col>
-
-            </AppContentHeader>
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/accounts/list` }}>   <div className='breadcrum-label'>ACCOUNT</div></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >
+                                    {state?.name}
+                                </Breadcrumb.Item>}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className='p-0 ps-1'>
+                            {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
+                            <Button as={Link} to={`/${rootPath}/accounts/list`} variant="secondary" size="sm">DISCARD</Button>
+                            {!isAddMode && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="ACTION">
+                                <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
+                            </DropdownButton>}
+                        </Col>
+                    </Row>
+                </Container>
+            </AppContentHeader >
             <AppContentBody>
                 {/* BODY FIELDS */}
                 <Container fluid>
@@ -199,6 +206,6 @@ export default function Account() {
                 {/* SUBTABS */}
 
             </AppContentBody>
-        </AppContentForm>
+        </AppContentForm >
     )
 }

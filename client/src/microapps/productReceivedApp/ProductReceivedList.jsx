@@ -53,7 +53,7 @@ export default function ProductReceivedList() {
         {
             headerName: ' ', field: 'id', sortable: false, filter: false, cellRendererFramework: (params) =>
                 <>
-                    <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/${rootPath}/receivedproducts/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
+                    <Button style={{ minWidth: "4rem", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} size="sm" as={Link} to={`/${rootPath}/receivedproducts/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
                     {/* <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/employees/employee/${params.value}?mode=view`}><BsEyeFill /></Button> */}
                 </>
         },
@@ -121,7 +121,7 @@ export default function ProductReceivedList() {
 
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

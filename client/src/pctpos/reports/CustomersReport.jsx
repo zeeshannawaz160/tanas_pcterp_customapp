@@ -1,6 +1,6 @@
 import { AgGridReact } from 'ag-grid-react';
 import React, { useState, useEffect, useContext } from 'react';
-import { Button, Container, Row, Col, Form } from 'react-bootstrap';
+import { Button, Container, Row, Col, Form, Breadcrumb } from 'react-bootstrap';
 import { BsBoxArrowInUpRight, BsEyeFill } from 'react-icons/bs';
 // import { useHistory } from 'react-router-dom';
 // import { Link, useLocation } from 'react-router-dom';
@@ -9,6 +9,9 @@ import { formatNumber } from '../../helpers/Utils';
 import { CustomerContext } from '../../components/states/contexts/CustomerContext';
 import ApiService from '../../helpers/ApiServices';
 import AppLoader from '../../pcterp/components/AppLoader';
+import AppContentForm from '../../pcterp/builder/AppContentForm';
+import AppContentHeader from '../../pcterp/builder/AppContentHeader';
+import AppContentBody from '../../pcterp/builder/AppContentBody';
 const moment = require('moment');
 
 
@@ -118,71 +121,62 @@ export default function CustomersReport() {
         )
     }
 
-    return <Container className="pct-app-content-container p-0 m-0" fluid>
-        <Container className="pct-app-content-body p-0 m-0" fluid>
-            <div className="PCTAppContent">
-                <div className="PCTAppLeftContent__refundList">
-                    <div className="PCTAppLeftContent__header">
-                        <Row>
-                            <Col><h3 style={{ marginLeft: 10 }}>Customers Report</h3></Col>
-                        </Row>
-                        <Row>
-                            <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
-                                <span style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div className="buttonGroup__back">
-                                        <Button variant='light' size='sm' onClick={handleBack}>Back</Button>
-                                    </div>
-                                    <Form.Group>
-                                        <Form.Select size='sm' onChange={e => handleReportsTable(e.target.value)}>
-                                            <option value="topCustomersToWorstCustomer" selected>Top Customers</option>
-                                        </Form.Select>
-                                    </Form.Group>
-                                </span>
-
-                                {/* <div className="buttonGroup__add">
-                                    <Button variant='primary' as={Link} to={`/pos/customer?stack=${stack}`} >Create Customer</Button>
-                                </div>
-                                {isChangeCustomerBtnVisible && <div className="buttonGroup__add">
-                                    <Button variant='primary' onClick={() => handleSetCustomer(selectedCustomer)}>Set Customer</Button>
-                                </div>} */}
-                                <span style={{ display: 'flex', flexDirection: 'row' }}>
-                                    <div>
-                                        <input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input>
-                                    </div>
-                                    <div>
-                                        <Button size='sm' onClick={handleExportAsCsv}>Export CSV</Button>
-                                    </div>
-                                </span>
-
+    return <AppContentForm>
+        <AppContentHeader>
+            <Container fluid >
+                <Row>
+                    <Col className='p-0 ps-2'>
+                        <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                            <Breadcrumb.Item active> <div className='breadcrum-label-active'>CUSTOMERS REPORT</div></Breadcrumb.Item>
+                        </Breadcrumb>
+                    </Col>
+                </Row>
+                <Row>
+                    <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                        <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                            <div className="buttonGroup__back">
+                                <Button variant='light' size='sm' onClick={handleBack}>Back</Button>
                             </div>
-                        </Row>
-
+                            <Form.Group>
+                                <Form.Select size='sm' onChange={e => handleReportsTable(e.target.value)}>
+                                    <option value="topCustomersToWorstCustomer" selected>Top Customers</option>
+                                </Form.Select>
+                            </Form.Group>
+                        </span>
+                        <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                            <div>
+                                <input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input>
+                            </div>
+                            <div>
+                                <Button size='sm' onClick={handleExportAsCsv}>Export CSV</Button>
+                            </div>
+                        </span>
                     </div>
-                    <div className="PCTAppLeftContent__content">
-                        <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
-                            <AgGridReact
-                                onGridReady={onGridReady}
-                                rowData={state}
-                                columnDefs={columns}
-                                rowSelection="single"
-                                onCellClicked={handleRowSelection}
-                                defaultColDef={{
-                                    editable: false,
-                                    sortable: true,
-                                    minWidth: 100,
-                                    filter: true,
-                                    resizable: true,
-                                    minWidth: 200
-                                }}
-                                pagination={true}
-                                paginationPageSize={50}
-                                // overlayNoRowsTemplate="No Purchase Order found. Let's create one!"
-                                overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
-                            />
-                        </div>
-                    </div>
-                </div>
+                </Row>
+            </Container>
+        </AppContentHeader>
+        <AppContentBody>
+            <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
+                <AgGridReact
+                    onGridReady={onGridReady}
+                    rowData={state}
+                    columnDefs={columns}
+                    defaultColDef={{
+                        editable: true,
+                        sortable: true,
+                        flex: 1,
+                        minWidth: 100,
+                        filter: true,
+                        resizable: true,
+                        minWidth: 200
+                    }}
+                    pagination={true}
+                    paginationPageSize={50}
+                    // overlayNoRowsTemplate="No Purchase Order found. Let's create one!"
+                    overlayNoRowsTemplate='<span style="color: rgb(128, 128, 128); font-size: 2rem; font-weight: 100;">No Records Found!</span>'
+                />
             </div>
-        </Container>
-    </Container>;
+
+        </AppContentBody>
+    </AppContentForm>
 }

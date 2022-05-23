@@ -353,7 +353,7 @@ export default function ProductDelivery() {
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
+                    <Row>
                         <Col className='p-0 ps-1'>
                             {state?.status == "Ready" && <Button type="submit" variant="primary" size="sm">SAVE</Button>}
                             <Button as={Link} to={`/${rootPath}/productdeliveries`} variant="secondary" size="sm">DISCARD</Button>

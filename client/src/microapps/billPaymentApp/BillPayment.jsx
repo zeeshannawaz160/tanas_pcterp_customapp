@@ -122,7 +122,7 @@ export default function BillPayment() {
 
     // handle Print
     const handlePrintOrder = async () => {
-        PurchaseOrderPDF.generateBillPDF(state.id);
+        PurchaseOrderPDF.generateBillPDF(state.bill.id);
         return;
     }
 
@@ -145,12 +145,8 @@ export default function BillPayment() {
     return (
         <AppContentForm onSubmit={handleSubmit(onSubmit)}>
             <AppContentHeader>
-                <Row>
+                {/* <Row>
                     <Breadcrumb style={{ fontSize: '24px' }}>
-                        {/* <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/purchase/purchases' }} ><h3 className="breadcrum-label">Purchase Orders</h3></Breadcrumb.Item>
-                        <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/purchase/purchases/edit/${state?.sourceDocument?.id}` }} ><span className="breadcrum-label">{state?.sourceDocument?.name}</span></Breadcrumb.Item>
-                        <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/purchase/vendorbills/edit/${state?.bill?.id}` }} ><span className="breadcrum-label">{state?.memo}</span></Breadcrumb.Item>
-                        {isAddMode ? <Breadcrumb.Item active><span >New</span></Breadcrumb.Item> : <Breadcrumb.Item active><span>Register Payment</span></Breadcrumb.Item>} */}
                         <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: `/${rootPath}` }} ><h3 className="breadcrum-label">BILLS</h3></Breadcrumb.Item>
                         <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/${rootPath}/bills/edit/${state?.bill?.id}` }} ><span className="breadcrum-label">{state?.memo}</span></Breadcrumb.Item>
                         {isAddMode ? <Breadcrumb.Item active><span >New</span></Breadcrumb.Item> : <Breadcrumb.Item active><span>Register Payment</span></Breadcrumb.Item>}
@@ -164,9 +160,51 @@ export default function BillPayment() {
                         <Button as={Link} to={`/${rootPath}/billpayment/list`} variant="light" size="sm">DISCARD</Button>{" "}
 
                     </Col>
-                </Row>
+                </Row> */}
 
 
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: `/${rootPath}/` }} ><div className="breadcrum-label">BILLS</div></Breadcrumb.Item>
+                                <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/${rootPath}/bills/edit/${state?.bill?.id}` }} ><span className="breadcrum-label">{state?.memo}</span></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active><span>REGISTER PAYMENT</span></Breadcrumb.Item>}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className='p-0 ps-1'>
+                            {
+                                state?.bill?.paymentStatus !== "Paid" && <Button type="submit" variant="primary" size="sm">CREATE PAYMENT</Button>
+                            }
+                            <Button as={Link} to={`/${rootPath}/billpayment/list`} variant="secondary" size="sm">DISCARD</Button>
+                        </Col>
+                    </Row>
+                </Container>
+
+
+                {/* <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/accounts/list` }}><div className='breadcrum-label'>ACCOUNT</div></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >
+                                    {state?.name}
+                                </Breadcrumb.Item>}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <Col className='p-0 ps-1'>
+                            {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
+                            <Button as={Link} to={`/${rootPath}/accounts/list`} variant="secondary" size="sm">DISCARD</Button>
+                            {!isAddMode && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="ACTION">
+                                <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
+                            </DropdownButton>}
+                        </Col>
+                    </Row>
+                </Container> */}
             </AppContentHeader>
             <AppContentBody>
                 {/* STATUS BAR */}

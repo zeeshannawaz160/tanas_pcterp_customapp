@@ -119,7 +119,8 @@ export default function BillPayment() {
 
     // handle Print
     const handlePrintOrder = async () => {
-        PurchaseOrderPDF.generateBillPDF(state.id);
+        console.log(state)
+        PurchaseOrderPDF.generateBillPaymentPDF(state.id);
         return;
     }
 
@@ -142,23 +143,24 @@ export default function BillPayment() {
     return (
         <AppContentForm onSubmit={handleSubmit(onSubmit)}>
             <AppContentHeader>
-                <Row>
-                    <Breadcrumb style={{ fontSize: '24px' }}>
-                        <Breadcrumb.Item className="breadcrumb-item" linkAs={Link} linkProps={{ to: '/accounting/customerpayments/list' }} ><h3 className="breadcrum-label">Customer Payments</h3></Breadcrumb.Item>
-                        <Breadcrumb.Item active ><span className="breadcrum-label">{state?.name}</span></Breadcrumb.Item>
-                        {/* <Breadcrumb.Item linkAs={Link} linkProps={{ to: `/purchase/vendorbills/edit/${state?.bill?.id}` }} ><span className="breadcrum-label">{state?.bill?.name}</span></Breadcrumb.Item> */}
-                        {/* {isAddMode ? <Breadcrumb.Item active><span >New</span></Breadcrumb.Item> : <Breadcrumb.Item active><span>Register Payment</span></Breadcrumb.Item>} */}
-                    </Breadcrumb>
-                </Row>
-                <Row>
-                    <Col>
-                        {
-                            state?.invoice?.paymentStatus !== "Paid" && <Button type="submit" variant="primary" size="sm">CREATE PAYMENT</Button>
-                        }
-                        <Button as={Link} to={`/${rootPath}/customerpayments/list`} variant="light" size="sm">DISCARD</Button>{" "}
-
-                    </Col>
-                </Row>
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: '/accounting/customerpayments/list' }}>   <div className='breadcrum-label'>CUSTOMER PAYMENTS</div></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >{state?.name}</Breadcrumb.Item>}
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row >
+                        <Col className='p-0 ps-1'>
+                            {
+                                state?.invoice?.paymentStatus !== "Paid" && <Button type="submit" variant="primary" size="sm">CREATE PAYMENT</Button>
+                            }
+                            <Button as={Link} to={`/${rootPath}/customerpayments/list`} variant="light" size="sm">DISCARD</Button>
+                        </Col>
+                    </Row>
+                </Container>
 
 
             </AppContentHeader>

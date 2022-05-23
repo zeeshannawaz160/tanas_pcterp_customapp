@@ -49,9 +49,9 @@ export default function DepartmentList() {
         {
             headerName: ' ', minWidth: 200, field: '_id', sortable: false, filter: false, cellRendererFramework: (params) =>
                 <>
-                    <Button size="sm" variant='secondary' as={Link} to={`/${rootPath}/customapptype/edit/${params?.value}`}>EDIT</Button>
-                    <Button size="sm" as={Link} to={`/${rootPath}/customapp/list?doctype=${params?.value}`}>LIST</Button>
-                    <Button size="sm" as={Link} to={`/${rootPath}/customapp/add?doctype=${params?.value}`}>NEW</Button>
+                    <Button style={{ minWidth: "4rem", marginTop: -5 }} size="sm" variant='secondary' as={Link} to={`/${rootPath}/customapptype/edit/${params?.value}`}>EDIT</Button>
+                    <Button style={{ minWidth: "4rem", marginTop: -5 }} size="sm" as={Link} to={`/${rootPath}/customapp/list?doctype=${params?.value}`}>LIST</Button>
+                    <Button style={{ minWidth: "4rem", marginTop: -5 }} size="sm" as={Link} to={`/${rootPath}/customapp/add?doctype=${params?.value}`}>NEW</Button>
                 </>
         },
         { headerName: 'ID#', maxWidth: 80, field: 'documentId' },
@@ -79,12 +79,11 @@ export default function DepartmentList() {
 
         <AppContentForm>
             <AppContentHeader>
-                <Container fluid >
+                {/* <Container fluid >
                     <Row>
                         <Col className='p-0 ps-2'>
                             <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
                                 <Breadcrumb.Item active> <div className='breadcrum-label-active'>CUSTOM APPS</div></Breadcrumb.Item>
-                                {/* <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: '/purchase/purchases/list' }}>   <div className='breadcrum-label'>Purchase Orders</div></Breadcrumb.Item> */}
                             </Breadcrumb>
                         </Col>
                     </Row>
@@ -99,12 +98,34 @@ export default function DepartmentList() {
                             </Row>
                         </Col>
                     </Row>
+                </Container> */}
+
+
+                <Container fluid >
+                    <Row>
+                        <Col className='p-0 ps-2'>
+                            <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
+                                <Breadcrumb.Item active> <div className='breadcrum-label-active'>CUSTOM APPS</div></Breadcrumb.Item>
+                            </Breadcrumb>
+                        </Col>
+                    </Row>
+                    <Row>
+                        <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                                <div className="buttonGroup__back"><Button as={Link} to={`/${rootPath}/customapptype/add`} variant="primary" size="sm">CREATE</Button></div>
+                            </span>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                                <div><input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input></div>
+                                <div><Button size="sm" onClick={handleExportAsCsv}>EXPORT CSV</Button></div>
+                            </span>
+                        </div>
+                    </Row>
                 </Container>
 
 
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

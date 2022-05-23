@@ -48,7 +48,7 @@ export default function DepartmentList() {
         {
             headerName: ' ', field: 'id', sortable: false, filter: false, cellRendererFramework: (params) =>
                 <>
-                    <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/${rootPath}/departments/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
+                    <Button style={{ minWidth: "4rem", position: 'absolute', top: '50%', transform: 'translateY(-50%)' }} size="sm" as={Link} to={`/${rootPath}/departments/edit/${params.value}`}><BsBoxArrowInUpRight /></Button>
                     {/* <Button style={{ minWidth: "4rem" }} size="sm" as={Link} to={`/employees/employee/${params.value}?mode=view`}><BsEyeFill /></Button> */}
                 </>
         },
@@ -84,8 +84,8 @@ export default function DepartmentList() {
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
-                        <Col className='p-0 ps-1'>
+                    <Row >
+                        {/* <Col className='p-0 ps-1'>
                             <Button size="sm" as={Link} to={`/${rootPath}/departments/add`}>CREATE</Button>{" "}
                         </Col>
                         <Col md="4" sm="6">
@@ -93,12 +93,22 @@ export default function DepartmentList() {
                                 <Col md="8"><input type="text" className="openning-cash-control__amount--input" placeholder="Search here..." onChange={handleSearch}></input></Col>
                                 <Col md="4"><Button onClick={handleExportAsCsv} variant="primary" size="sm"><span>Export CSV</span></Button></Col>
                             </Row>
-                        </Col>
+                        </Col> */}
+
+                        <div className="buttonGroup" style={{ height: '100%', display: 'flex', flexDirection: 'row', alignItems: 'center', justifyContent: 'space-between' }}>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginLeft: '-7px' }}>
+                                <div className="buttonGroup__back"><Button as={Link} to={`/${rootPath}/departments/add`} variant="primary" size="sm">CREATE</Button></div>
+                            </span>
+                            <span style={{ display: 'flex', flexDirection: 'row', marginRight: '-12px' }}>
+                                <div><input type="text" className="search__panel" placeholder="Search here..." onChange={handleSearch}></input></div>
+                                <div><Button size="sm" onClick={handleExportAsCsv}>Export CSV</Button></div>
+                            </span>
+                        </div>
                     </Row>
                 </Container>
             </AppContentHeader>
             <AppContentBody>
-                <div className="ag-theme-alpine" style={{ height: '100%', width: '100%' }}>
+                <div className="ag-theme-alpine" style={{ padding: "5px 10px 10px", height: '100%', width: '100%' }}>
                     <AgGridReact
                         onGridReady={onGridReady}
                         rowData={state}

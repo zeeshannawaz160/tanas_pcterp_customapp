@@ -170,7 +170,7 @@ export default function Dashboard() {
                                 </Breadcrumb>
                             </Col>
                         </Row>
-                        <Row style={{ marginTop: '-10px' }}>
+                        <Row >
                             <Col className='p-0 ps-1'>
                                 <Form.Select size='sm' className='reporting-select' id="reportName" name="reportName" aria-label="Default select example" onChange={e => {
                                     const name = e.target.value;

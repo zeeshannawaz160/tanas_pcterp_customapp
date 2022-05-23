@@ -366,7 +366,7 @@ export default function SalesOrder() {
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
+                    <Row>
                         <Col className='p-0 ps-1'>
                             {(isAddMode || state?.invoiceStatus == "Nothing to Invoice" || state?.invoiceStatus == "Partially Delivered / Invoiced") && <Button type="submit" variant="primary" size="sm">SAVE</Button>}
                             <Button as={Link} to={`/${rootPath}/salesorders/list`} variant="secondary" size="sm">DISCARD</Button>

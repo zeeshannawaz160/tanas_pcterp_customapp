@@ -298,13 +298,13 @@ exports.getSalesAnalysis = catchAsync(async (req, res, next) => {
   console.log(req.query);
 
   const name = req.query.name;
-  const sTemp = new Date(req.query.start);
-  sTemp.setDate(sTemp.getDate() + 1);
-  const startTime = sTemp.toISOString();
+  // const sTemp = new Date(req.query.start);
+  // sTemp.setDate(sTemp.getDate() + 1);
+  // const startTime = sTemp.toISOString();
 
-  const eTemp = new Date(req.query.end);
-  eTemp.setDate(eTemp.getDate() + 1);
-  const endTime = eTemp.toISOString();
+  // const eTemp = new Date(req.query.end);
+  // eTemp.setDate(eTemp.getDate() + 1);
+  // const endTime = eTemp.toISOString();
   // const startTime = req.query.start;
   // const endTime = req.query.end;
 
@@ -312,7 +312,17 @@ exports.getSalesAnalysis = catchAsync(async (req, res, next) => {
   // newEndTime.setDate(newEndTime.getDate() + 1);
   // const endTimeIncremented = newEndTime.toLocaleDateString();
 
-  console.log(name);
+  // console.log(name);
+  // console.log(startTime);
+  // console.log(endTime);
+
+  const sTemp = new Date(req.query.start);
+  const eTemp = new Date(req.query.end);
+  const sTime = sTemp.getTime() - sTemp.getTimezoneOffset() * 60000;
+  const eTime = eTemp.getTime() - eTemp.getTimezoneOffset() * 60000;
+  const startTime = new Date(sTime);
+  const endTime = new Date(eTime);
+
   console.log(startTime);
   console.log(endTime);
 

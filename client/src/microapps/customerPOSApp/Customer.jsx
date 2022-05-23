@@ -175,7 +175,7 @@ export default function Customer() {
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
+                    <Row>
                         <Col className='p-0 ps-1'>
                             {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
                             <Button as={Link} to={`/${rootPath}/customers?stack=${stack}`} variant="secondary" size="sm">DISCARD</Button>

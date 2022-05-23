@@ -144,14 +144,14 @@ export default function Company() {
                     <Row>
                         <Col className='p-0 ps-2'>
                             <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
-                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/customers/list` }}>   <div className='breadcrum-label'>CUSTOMERS</div></Breadcrumb.Item>
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/company/list` }}><div className='breadcrum-label'>COMPANY</div></Breadcrumb.Item>
                                 {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >
                                     {state?.name}
                                 </Breadcrumb.Item>}
                             </Breadcrumb>
                         </Col>
                     </Row>
-                    <Row style={{ marginTop: '-10px' }}>
+                    <Row>
                         <Col className='p-0 ps-1'>
                             {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
                             <Button as={Link} to={`/${rootPath}/company/list`} variant="secondary" size="sm">DISCARD</Button>

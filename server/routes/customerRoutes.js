@@ -9,13 +9,16 @@ const router = express.Router();
 // Public Routes
 // Role Specified Routes
 // router.use(authController.protect);
+router.route("/import").post(customerController.importCustomer);
+
 router.use(authController.protect(Employee));
 router.route("/list").get(customerController.getList);
 
 router
   .route("/")
   .get(customerController.getAllCustomers)
-  .post(customerController.createCustomer);
+  .post(customerController.createCustomer)
+  .delete(customerController.deleteAllCustomers);
 
 router
   .route("/:id")

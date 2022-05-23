@@ -311,15 +311,25 @@ exports.getPurchaseAnalysis = catchAsync(async (req, res, next) => {
   console.log(req.query);
 
   const name = req.query.name;
+  // const sTemp = new Date(req.query.start);
+  // sTemp.setDate(sTemp.getDate() + 1);
+  // const startTime = sTemp.toISOString();
+
+  // const eTemp = new Date(req.query.end);
+  // eTemp.setDate(eTemp.getDate() + 1);
+  // const endTime = eTemp.toISOString();
+
+  // console.log(name);
+  // console.log(startTime);
+  // console.log(endTime);
+
   const sTemp = new Date(req.query.start);
-  sTemp.setDate(sTemp.getDate() + 1);
-  const startTime = sTemp.toISOString();
-
   const eTemp = new Date(req.query.end);
-  eTemp.setDate(eTemp.getDate() + 1);
-  const endTime = eTemp.toISOString();
+  const sTime = sTemp.getTime() - sTemp.getTimezoneOffset() * 60000;
+  const eTime = eTemp.getTime() - eTemp.getTimezoneOffset() * 60000;
+  const startTime = new Date(sTime);
+  const endTime = new Date(eTime);
 
-  console.log(name);
   console.log(startTime);
   console.log(endTime);
 
