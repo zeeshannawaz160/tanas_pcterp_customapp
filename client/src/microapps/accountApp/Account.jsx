@@ -37,6 +37,7 @@ export default function Account() {
     }
 
     const createDocument = (data) => {
+        console.log("hello")
         ApiService.setHeader();
         return ApiService.post('/account', data).then(response => {
             if (response.data.isSuccess) {
