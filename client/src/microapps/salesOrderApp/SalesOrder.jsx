@@ -18,7 +18,7 @@ import Decimal128Field from '../../pcterp/field/Decimal128Field';
 import LogHistories from '../../pcterp/components/LogHistories';
 import CheckboxField from '../../pcterp/field/CheckboxField';
 import { UserContext } from '../../components/states/contexts/UserContext';
-import { PurchaseOrderPDF } from '../../helpers/PDF';
+import { PurchaseOrderPDF, SalesOrderPDF } from '../../helpers/PDF';
 import AppContentLine from '../../pcterp/builder/AppContentLine';
 import LineSelectField from '../../pcterp/field/LineSelectField';
 import LineTextField from '../../pcterp/field/LineTextField';
@@ -154,7 +154,7 @@ export default function SalesOrder() {
 
     const handlePrintOrder = async () => {
         console.log(state._id)
-        PurchaseOrderPDF.generatePurchaseOrderPDF(state._id);
+        SalesOrderPDF.generateSalesOrderPDF(state._id);
         return;
     }
 
@@ -298,13 +298,23 @@ export default function SalesOrder() {
             totalTax += (parseFloat(val.taxes[0]) * parseFloat(val.subTotal)) / 100
         });
 
+        console.log("totalTax: ", totalTax);
+        console.log("cumulativeSum: ", cumulativeSum);
+
         setValue("estimation", {
             untaxedAmount: cumulativeSum,
             tax: totalTax,
             total: parseFloat(cumulativeSum + totalTax)
         });
 
-
+        setState(prevState => ({
+            ...prevState,    // keep all other key-value pairs
+            estimation: {
+                untaxedAmount: cumulativeSum,
+                tax: totalTax,
+                total: parseFloat(cumulativeSum + totalTax)
+            }
+        }));
     }
 
     const calculatePDCount = async () => {
@@ -331,7 +341,7 @@ export default function SalesOrder() {
     }
 
 
-
+    console.log(state?.estimation);
 
 
     useEffect(() => {

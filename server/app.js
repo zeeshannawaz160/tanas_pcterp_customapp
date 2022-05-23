@@ -60,6 +60,7 @@ const permissionRoute = require("./routes/permissionRoutes");
 const rolesRoute = require("./routes/roleRoutes");
 const cashSaleRoute = require("./routes/cashSaleRoutes");
 const companyRoute = require("./routes/companyRoutes");
+const setupRoute = require("./routes/setupRoutes");
 
 const appCenterRoute = require("./routes/appCenterRoutes");
 const customDocumentTypeRoute = require("./routes/customDocumentTypeRoutes");
@@ -183,6 +184,7 @@ app.use("/api/v1/permission", permissionRoute);
 app.use("/api/v1/role", rolesRoute);
 app.use("/api/v1/cashSale", cashSaleRoute);
 app.use("/api/v1/company", companyRoute);
+app.use("/api/v1/setup", setupRoute);
 
 app.use("/api/v1/appCenter", appCenterRoute);
 app.use("/api/v1/customDocumentType", customDocumentTypeRoute);

@@ -38,6 +38,7 @@ export default function ProductList() {
     }
 
 
+
     const findAllDocument = async () => {
         ApiService.setHeader();
         const response = await ApiService.get('product');
@@ -96,8 +97,9 @@ export default function ProductList() {
                         </Col>
                         <Col md="4" sm="6">
                             <Row>
-                                <Col md="8"><input type="text" className="openning-cash-control__amount--input" placeholder="Search..." onChange={handleSearch}></input></Col>
+                                <Col md="4"><input type="text" className="openning-cash-control__amount--input" placeholder="Search..." onChange={handleSearch}></input></Col>
                                 <Col md="4"><Button onClick={handleExportAsCsv} variant="primary" size="sm"><span>EXPORT CSV</span></Button></Col>
+
                             </Row>
                         </Col>
                     </Row>

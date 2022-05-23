@@ -156,15 +156,17 @@ class TanasUtils {
 }
 
 const errorMessage = (err, dispatch) => {
-  console.log(err);
+  console.log(err.response?.data);
   if (
-    err == "Logged out.please log in" ||
-    err == "You are not logged in! Please log in to get access." ||
-    err == "The user belonging to this token does no longer exist."
+    err.response?.data.message == "Logged out.please log in" ||
+    err.response?.data.message ==
+      "You are not logged in! Please log in to get access." ||
+    err.response?.data.message ==
+      "The user belonging to this token does no longer exist."
   ) {
     notification.error({
       message: "Error",
-      description: err,
+      description: err.response?.data.message,
       style: {
         color: "red",
       },
@@ -175,7 +177,7 @@ const errorMessage = (err, dispatch) => {
   } else {
     notification.error({
       message: "Error",
-      description: err,
+      description: err.response?.data.message,
       style: {
         color: "red",
       },

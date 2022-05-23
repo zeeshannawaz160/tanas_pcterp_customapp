@@ -4,25 +4,30 @@ const autoIncrement = require("mongoose-auto-increment");
 // FIELDS ARE >>>
 const companySchema = mongoose.Schema(
   {
-    name: {
+    setupType: {
       type: String,
-      required: [true, "A Company must have a name"],
-      trim: true,
+      enum: ["CompanySetup"],
     },
-    phone: Number,
-    email: {
-      type: String,
-      trim: true,
-      lowercase: true,
-    },
-    logoPath: String,
-    logoName: String,
-    address: String,
+    // name: {
+    //   type: String,
+    //   required: [true, "A Company must have a name"],
+    //   trim: true,
+    // },
+    // phone: Number,
+    // email: {
+    //   type: String,
+    //   trim: true,
+    //   lowercase: true,
+    // },
+    // logoPath: String,
+    // logoName: String,
+    // address: String,
   },
   {
-    toJSON: { virtuals: true },
-    toObject: { virtuals: true },
-    timestamps: true,
+    strict: false,
+    // toJSON: { virtuals: true },
+    // toObject: { virtuals: true },
+    // timestamps: true,
   }
 );
 

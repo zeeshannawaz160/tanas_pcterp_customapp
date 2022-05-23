@@ -11,9 +11,9 @@ const router = express.Router();
 // router.use(authController.protect);
 router.use(authController.protect(Employee));
 
-router
-  .route("/list")
-  .get(vendorController.getList)
+router.route("/import").post(vendorController.importVendor);
+
+router.route("/list").get(vendorController.getList);
 
 router
   .route("/")
@@ -26,8 +26,6 @@ router
   .patch(vendorController.updateVendor)
   .delete(vendorController.deleteVendor);
 
-router
-  .route("/:id/histories")
-  .get(vendorController.getHistories)
+router.route("/:id/histories").get(vendorController.getHistories);
 
 module.exports = router;

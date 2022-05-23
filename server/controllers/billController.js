@@ -11,17 +11,17 @@ const mongoose = require("mongoose");
 const { Promise } = require("mongoose");
 const NewBill = require("../models/billModel");
 
-exports.getAllBills = factory.getAll(Bill, [
+exports.getAllBills = factory.getAll(NewBill, [
   { path: "sourceDocument", select: "id purchaseOrderId name" },
   { path: "vendor", select: "id name" },
 ]);
-exports.getBill = factory.getOne(Bill, [
+exports.getBill = factory.getOne(NewBill, [
   { path: "sourceDocument", select: "id purchaseOrderId name" },
   { path: "attachedPO", select: "_id purchaseOrderId name" },
   // { path: "vendor", select: "id name" },
 ]);
 //exports.updateBill = factory.updateOne(Bill);
-exports.deleteBill = factory.deleteOne(Bill);
+exports.deleteBill = factory.deleteOne(NewBill);
 
 /**
  * Title: Update bill
@@ -33,6 +33,7 @@ exports.deleteBill = factory.deleteOne(Bill);
  *
  * Changes Log:
  * 13-05-2022: Biswajit update bill and create GL
+ * 18-05-2022: Biswajit update journal property to "NewBill"
  *
  */
 exports.updateBill = catchAsync(async (req, res, next) => {
@@ -40,11 +41,13 @@ exports.updateBill = catchAsync(async (req, res, next) => {
 
   // 1. Update the bill with status
   try {
-    const billDocument = await Bill.findByIdAndUpdate(req.params.id, req.body, {
-      new: true,
-    }).populate([
-      { path: "sourceDocument", select: "id name purchaseOrderId" },
-    ]);
+    const billDocument = await NewBill.findByIdAndUpdate(
+      req.params.id,
+      req.body,
+      {
+        new: true,
+      }
+    ).populate([{ path: "sourceDocument", select: "id name purchaseOrderId" }]);
     console.log("Bill Doc", billDocument);
 
     const generalLedgers = new Array();
@@ -54,7 +57,7 @@ exports.updateBill = catchAsync(async (req, res, next) => {
       generalLedger.product = item.product;
       generalLedger.account = item.account;
       generalLedger.journalLabel = "Vendor Bill";
-      generalLedger.journal = "Bill";
+      generalLedger.journal = "NewBill";
       generalLedger.journalEntry = billDocument._id;
       generalLedger.entityType = "Vendor";
       generalLedger.entity = billDocument.vendorArray[0]?._id;
@@ -273,7 +276,7 @@ exports.createBill = catchAsync(async (req, res, next) => {
 
     // console.log("BILL", billObject);
 
-    const billDocument = await Bill.create(billObject);
+    const billDocument = await NewBill.create(billObject);
 
     // console.log("BILL==>", billDocument)
 
@@ -330,7 +333,7 @@ const calculateProductQty = async (billDocument, next, res) => {
 
 exports.findBillsByPO = catchAsync(async (req, res, next) => {
   console.log("PO" + req.params.id);
-  const billDocument = await Bill.find()
+  const billDocument = await NewBill.find()
     .where("sourceDocument")
     .equals(req.params.id)
     .populate([
@@ -350,7 +353,7 @@ exports.findBillsByPO = catchAsync(async (req, res, next) => {
 exports.findOutstandingBills = catchAsync(async (req, res, next) => {
   console.log(req.query);
 
-  const billDocument = await Bill.find()
+  const billDocument = await NewBill.find()
     .where("paymentStatus")
     .equals(req.query.paymentStatus)
     .populate([
@@ -377,6 +380,7 @@ exports.findOutstandingBills = catchAsync(async (req, res, next) => {
  *
  * Changes Log:
  * 13-05-2022: Biswajit create standalone bill
+ * 18-05-2022: Biswajit update invoiceline account data
  *
  */
 exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
@@ -428,7 +432,7 @@ exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
 
       const journalItemForDebit = new Object();
       journalItemForDebit.product = item.product;
-      journalItemForDebit.account = item.account;
+      journalItemForDebit.account = item.accountArray[0]._id;
       journalItemForDebit.accountArray = item.accountArray;
       journalItemForDebit.label = productName?.name + ": " + item.label;
       journalItemForDebit.debit = item.subTotal;
@@ -439,7 +443,7 @@ exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
       const journalItemForSGST = new Object();
       journalItemForSGST.product = item.product;
       journalItemForSGST.account = sgstAccount[0]?._id;
-      journalItemForSGST.accountArray = item.accountArray;
+      journalItemForSGST.accountArray = sgstAccount;
       journalItemForSGST.label =
         "SGST Purchase " + (parseFloat(item.taxes[0]) / 2).toFixed(2) + "%";
       journalItemForSGST.debit = parseFloat(
@@ -452,7 +456,7 @@ exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
       const journalItemForCGST = new Object();
       journalItemForCGST.product = item.product;
       journalItemForCGST.account = cgstAccount[0]?._id;
-      journalItemForCGST.accountArray = item.accountArray;
+      journalItemForCGST.accountArray = cgstAccount;
       journalItemForCGST.label =
         "CGST Purchase " + (parseFloat(item.taxes) / 2).toFixed(2) + "%";
       journalItemForCGST.debit = parseFloat(
@@ -465,7 +469,7 @@ exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
       journalItemForCredit.product = item.product;
       journalItemForDebit.label = productName?.name + ": " + item.label;
       journalItemForCredit.account = payableAccount[0]?._id; //creditor
-      journalItemForCredit.accountArray = item.accountArray; //creditor
+      journalItemForCredit.accountArray = payableAccount; //creditor
       journalItemForCredit.debit = 0.0;
       journalItemForCredit.credit = parseFloat(
         parseFloat(item.subTotal) +
@@ -489,7 +493,7 @@ exports.stansaloneBillCreate = catchAsync(async (req, res, next) => {
   billObject.total = req.body.estimation?.total;
   //   console.log(billObject);
 
-  const billDocument = await Bill.create(billObject);
+  const billDocument = await NewBill.create(billObject);
   if (!billDocument) {
     return next(new AppError("Issue in creating bill document.", 404));
   }
@@ -567,9 +571,13 @@ exports.updateStansaloneBill = catchAsync(async (req, res, next) => {
   billObject.estimation = req.body.estimation;
   console.log(billObject);
 
-  const billDocument = await Bill.findByIdAndUpdate(req.body.id, billObject, {
-    new: true,
-  });
+  const billDocument = await NewBill.findByIdAndUpdate(
+    req.body.id,
+    billObject,
+    {
+      new: true,
+    }
+  );
   //   .populate([
   //     { path: "vendor", select: "id name" },
   // { path: "sourceDocument", select: "id name purchaseOrderId" },
@@ -591,7 +599,7 @@ exports.getBillForPdf = catchAsync(async (req, res, next) => {
     //   },
 
     // ])
-    let billDocument = await Bill.findById(
+    let billDocument = await NewBill.findById(
       mongoose.Types.ObjectId(req.params.id)
     )
       .populate({
@@ -629,7 +637,7 @@ exports.getBillForPdf = catchAsync(async (req, res, next) => {
 });
 
 exports.getStandalonebill = catchAsync(async (req, res, next) => {
-  const documents = await Bill.find({ isStandalone: true });
+  const documents = await NewBill.find({ isStandalone: true });
 
   res.status(200).json({
     isSuccess: true,
@@ -640,7 +648,7 @@ exports.getStandalonebill = catchAsync(async (req, res, next) => {
 
 exports.getBillByName = catchAsync(async (req, res, next) => {
   console.log(req.body.name);
-  const document = await Bill.findOne({ name: req.body.name });
+  const document = await NewBill.findOne({ name: req.body.name });
 
   res.status(200).json({
     isSuccess: true,
@@ -650,7 +658,7 @@ exports.getBillByName = catchAsync(async (req, res, next) => {
 });
 
 exports.getunusedBill = catchAsync(async (req, res, next) => {
-  const documents = await Bill.find({
+  const documents = await NewBill.find({
     $and: [{ isStandalone: { $eq: true } }, { isUsed: { $eq: false } }],
   });
 

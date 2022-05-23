@@ -125,10 +125,10 @@ const productSchema = mongoose.Schema(
   }
 );
 
-productSchema.plugin(autoIncrement.plugin, {
-  model: "Product",
-  field: "documentId",
-});
+// productSchema.plugin(autoIncrement.plugin, {
+//   model: "Product",
+//   field: "documentId",
+// });
 productSchema.plugin(diffHistory.plugin, {
   omit: ["updatedAt", "id"],
 });
@@ -138,6 +138,6 @@ productSchema.pre("save", async function (next) {
   next();
 });
 
-const Product = mongoose.model("Product", productSchema);
+const Product = mongoose.model("NewProduct", productSchema);
 
 module.exports = Product;

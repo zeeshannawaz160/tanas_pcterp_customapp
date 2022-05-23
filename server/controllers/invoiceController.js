@@ -725,7 +725,7 @@ exports.getInvoiceForPdf = catchAsync(async (req, res, next) => {
 
     invDocument.invoiceLines.map((e) => {
       const invoiceLine = new Object();
-      invoiceLine.productName = e.product.name;
+      invoiceLine.productName = e.product[0]?.name;
       invoiceLine.label = e.label;
       invoiceLine.quantity = e.quantity;
       invoiceLine.unitPrice = e.unitPrice;

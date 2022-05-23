@@ -98,6 +98,13 @@ mongoose
     await Vendor.create(vendorJSON);
     console.log("\x1b[36m", "Vendors is added successfully!", "\x1b[0m");
 
+    const CompanySetup = require("../models/setupModel");
+    const companyJSON = JSON.parse(
+      fs.readFileSync(`${__dirname}/company.json`, "utf-8")
+    );
+    await CompanySetup.create(companyJSON);
+    console.log("\x1b[36m", "company is added successfully!", "\x1b[0m");
+
     // const Product = require('../models/customerModel');
     // const productJSON = JSON.parse(fs.readFileSync(`${__dirname}/products.json`, 'utf-8'));
     // await Product.create(productJSON)

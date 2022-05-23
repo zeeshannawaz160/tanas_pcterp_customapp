@@ -33,6 +33,10 @@
                 "item_navigation": "customers"
               },
               {
+                "item_name": "Import Customers",
+                "item_navigation": "importcustomers"
+              },
+              {
                 "item_name": "Customer Invoices",
                 "item_navigation": "invoices"
               },
@@ -50,6 +54,10 @@
               {
                 "item_name": "Products",
                 "item_navigation": "product"
+              },
+              {
+                "item_name": "Import Product",
+                "item_navigation": "importproduct"
               }
             ]
           }

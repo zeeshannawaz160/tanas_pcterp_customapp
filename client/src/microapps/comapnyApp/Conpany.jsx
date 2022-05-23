@@ -1,6 +1,6 @@
 import { React, useState, useEffect } from 'react'
 import { Container, Button, Col, Row, DropdownButton, Dropdown, ButtonGroup, Tabs, Tab, Breadcrumb, Form } from 'react-bootstrap'
-import { useForm } from 'react-hook-form'
+import { useForm, useFieldArray } from 'react-hook-form'
 import { Link, useNavigate, useLocation, useParams, useSearchParams } from 'react-router-dom'
 import ApiService from '../../helpers/ApiServices'
 import { errorMessage, infoNotification } from '../../helpers/Utils'
@@ -32,13 +32,18 @@ export default function Company() {
 
     const { register, control, reset, handleSubmit, getValues, setValue, watch, formState: { errors } } = useForm();
 
-
-
     // Functions
-
     const onSubmit = (formData) => {
 
-        console.log(formData);
+        // const form = new FormData();
+        // console.log(name, phone, email, address, Files);
+        // form.name = name
+        // form.phone = phone
+        // form.email = email
+        // form.address = address
+        // form.photo = Files
+
+        // console.log(form);
         return isAddMode
             ? createDocument(formData)
             : updateDocument(id, formData);
@@ -51,30 +56,19 @@ export default function Company() {
     };
 
     const createDocument = async (data) => {
+        console.log(data);
         ApiService.setHeader();
-        await ApiService.get("company").then(res => {
-            if (res.data.documents.length >= 1) {
-                infoNotification("You can only create one company information!")
-            } else {
-                return ApiService.post('/company', data).then(response => {
-                    if (response.data.isSuccess) {
-                        navigate(`/${rootPath}/company/list`)
-                    }
-                }).catch(e => {
-                    console.log(e.response?.data.message);
-                    errorMessage(e, null)
-                })
+
+        await ApiService.post('setup?setupType=COMPANY_SETUP', data).then(response => {
+            if (response.data.isSuccess) {
+                navigate(`/${rootPath}/company`)
             }
+        }).catch(e => {
+            console.log(e.response?.data.message);
+            errorMessage(e, null)
         })
 
-        // return ApiService.post('/company', data).then(response => {
-        //     if (response.data.isSuccess) {
-        //         navigate(`/${rootPath}/company/list`)
-        //     }
-        // }).catch(e => {
-        //     console.log(e.response?.data.message);
-        //     errorMessage(e, null)
-        // })
+
     }
 
     const updateDocument = (id, data) => {
@@ -104,18 +98,42 @@ export default function Company() {
     }
 
     const findOneDocument = async () => {
+        console.log("hi");
+        let uniqueId;
         ApiService.setHeader();
-        return ApiService.get(`company/${id}`).then(async response => {
-            const document = response?.data.document;
-            console.log(document);
-            reset(document)
-            setLoderStatus("SUCCESS");
+        await ApiService.get("setup").then(res => {
+            console.log(res.data.documents.length);
+            if (res.data.documents.length > 0) {
+                uniqueId = res.data.documents[0]?._id
+                return ApiService.get(`setup/${res.data.documents[0]?._id}`).then(async response => {
+                    const document = response?.data.document;
+                    console.log(document);
+                    reset(document)
+                    setState(document)
+                    setLoderStatus("SUCCESS");
 
 
-        }).catch(e => {
-            console.log(e.response?.data.message);
-            errorMessage(e, null)
+                }).catch(e => {
+                    console.log(e.response?.data.message);
+                    errorMessage(e, null)
+                })
+            } else {
+                navigate(`/${rootPath}/company`)
+            }
         })
+        setLoderStatus("SUCCESS");
+
+        // return ApiService.get(`setup/${uniqueId}`).then(async response => {
+        //     const document = response?.data.document;
+        //     console.log(document);
+        //     reset(document)
+        //     setLoderStatus("SUCCESS");
+
+
+        // }).catch(e => {
+        //     console.log(e.response?.data.message);
+        //     errorMessage(e, null)
+        // })
 
     }
 
@@ -123,7 +141,7 @@ export default function Company() {
 
     useEffect(() => {
 
-        if (!isAddMode) {
+        if (!isAddMode || isAddMode) {
             setLoderStatus("RUNNING");
             findOneDocument()
         }
@@ -144,9 +162,9 @@ export default function Company() {
                     <Row>
                         <Col className='p-0 ps-2'>
                             <Breadcrumb style={{ fontSize: '24px', marginBottom: '0 !important' }}>
-                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/customers/list` }}>   <div className='breadcrum-label'>CUSTOMERS</div></Breadcrumb.Item>
-                                {isAddMode ? <Breadcrumb.Item active>NEW</Breadcrumb.Item> : <Breadcrumb.Item active >
-                                    {state?.name}
+                                <Breadcrumb.Item className='breadcrumb-item' linkAs={Link} linkProps={{ to: `/${rootPath}/company` }}>   <div className='breadcrum-label'>COMPANY</div></Breadcrumb.Item>
+                                {isAddMode ? <Breadcrumb.Item active>{state?.setupType}</Breadcrumb.Item> : <Breadcrumb.Item active >
+                                    {state?.setupType}
                                 </Breadcrumb.Item>}
                             </Breadcrumb>
                         </Col>
@@ -154,7 +172,7 @@ export default function Company() {
                     <Row style={{ marginTop: '-10px' }}>
                         <Col className='p-0 ps-1'>
                             {<Button type="submit" variant="primary" size="sm">SAVE</Button>}
-                            <Button as={Link} to={`/${rootPath}/company/list`} variant="secondary" size="sm">DISCARD</Button>
+                            <Button as={Link} to={`/${rootPath}`} variant="secondary" size="sm">DISCARD</Button>
                             {!isAddMode && <DropdownButton size="sm" as={ButtonGroup} variant="light" title="ACTION">
                                 <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
                             </DropdownButton>}
@@ -172,12 +190,12 @@ export default function Company() {
                             register={register}
                             errors={errors}
                             field={{
-                                description: "Name of the sipplier.",
+                                description: "Name of the company",
                                 label: "NAME",
                                 fieldId: "name",
                                 placeholder: "",
                                 required: true,
-                                validationMessage: "Please enter the vendor name!"
+                                validationMessage: "Please enter company name!"
                             }}
                             changeHandler={null}
                             blurHandler={(e) => setname(e.target.value)}
@@ -187,22 +205,174 @@ export default function Company() {
                             register={register}
                             errors={errors}
                             field={{
-                                description: ".",
+                                description: "Provide legal name",
+                                label: "LEGAL NAME",
+                                fieldId: "legalname",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter legal name!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => {
+                                console.log(e.target.value);
+                                setphone(e.target.value)
+                            }
+                            }
+                        />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Name of the web site",
+                                label: "WEBSIITE",
+                                fieldId: "website",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter website!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => setname(e.target.value)}
+                        />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Enter state",
+                                label: "STATE",
+                                fieldId: "state",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter state!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => setname(e.target.value)}
+                        />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Enter country",
+                                label: "COUNTRY",
+                                fieldId: "country",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter country!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => setname(e.target.value)}
+                        />
+
+
+                        {/* <Form.Group as={Col} md="4" className="mb-2">
+                            <Form.Label className="m-0">Name</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="name"
+                                name="name"
+                                onChange={(e) => setname(e.target.value)}
+                            // {...register("file")}
+                            />
+                        </Form.Group> */}
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Provide phone number",
                                 label: "PHONE",
                                 fieldId: "phone",
                                 placeholder: "",
-                                // required: true,
-                                // validationMessage: "Please enter the vendor name!"
+                                required: true,
+                                validationMessage: "Please enter phone number!"
                             }}
                             changeHandler={null}
-                            blurHandler={(e) => setphone(e.target.value)}
+                            blurHandler={(e) => {
+                                console.log(e.target.value);
+                                setphone(e.target.value)
+                            }
+                            }
                         />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Provide TIN number",
+                                label: "TIN",
+                                fieldId: "tin",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter tin number!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => {
+                                console.log(e.target.value);
+                                setphone(e.target.value)
+                            }
+                            }
+                        />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Provide PAN number",
+                                label: "PAN",
+                                fieldId: "pan",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter pan number!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => {
+                                console.log(e.target.value);
+                                setphone(e.target.value)
+                            }
+                            }
+                        />
+
+                        <TextField
+                            register={register}
+                            errors={errors}
+                            field={{
+                                description: "Provide GSTIN number",
+                                label: "GSTIN",
+                                fieldId: "gstin",
+                                placeholder: "",
+                                required: false,
+                                validationMessage: "Please enter gstin number!"
+                            }}
+                            changeHandler={null}
+                            blurHandler={(e) => {
+                                console.log(e.target.value);
+                                setphone(e.target.value)
+                            }
+                            }
+                        />
+
+                        {/* <Form.Group as={Col} md="4" className="mb-2">
+                            <Form.Label className="m-0">Phone</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="phone"
+                                name="phone"
+                                onChange={(e) => {
+                                    console.log(e.target.value);
+                                    setphone(e.target.value)
+                                }
+                                }
+                            // {...register("file")}
+                            />
+                        </Form.Group> */}
 
                         <EmailField
                             register={register}
                             errors={errors}
                             field={{
-                                description: "",
+                                description: "Provide email address",
                                 label: "EMAIL",
                                 fieldId: "email",
                                 placeholder: "",
@@ -212,20 +382,29 @@ export default function Company() {
                             changeHandler={null}
                             blurHandler={(e) => setemail(e.target.value)}
                         />
-                        <TextArea
-                            register={register}
-                            errors={errors}
-                            field={{
-                                description: "Address",
-                                label: "ADDRESS",
-                                fieldId: "address",
-                                placeholder: "",
-                                // required: true,
-                                // validationMessage: "Please enter the address name!"
-                            }}
-                            changeHandler={null}
-                            blurHandler={(e) => setaddress(e.target.value)}
-                        />
+
+                        {/* <Form.Group as={Col} md="4" className="mb-2">
+                            <Form.Label className="m-0">Email</Form.Label>
+                            <Form.Control
+                                type="text"
+                                id="email"
+                                name="email"
+                                onChange={(e) => setemail(e.target.value)}
+                            // {...register("file")}
+                            />
+                        </Form.Group> */}
+
+
+                        {/* <Form.Group as={Col} md="4" className="mb-2">
+                            <Form.Label className="m-0">Address</Form.Label>
+                            <Form.Control
+                                type="textarea"
+                                id="address"
+                                name="address"
+                                onChange={(e) => setaddress(e.target.value)}
+                            // {...register("file")}
+                            />
+                        </Form.Group> */}
 
                         {/* <Form.Group as={Col} md="4" className="mb-2">
                             <Form.Label className="m-0">Logo</Form.Label>
@@ -233,27 +412,67 @@ export default function Company() {
                                 type="file"
                                 id="file"
                                 name="file"
-                                // onChange={onInputChange}
-                                {...register("file")}
+                                onChange={onInputChange}
+                            // {...register("file")}
                             />
                         </Form.Group> */}
-
-
-
 
                     </Row>
                 </Container>
 
                 {/* SUBTABS */}
-                <Tabs defaultActiveKey='auditTrail'>
-                    {!isAddMode && <Tab eventKey="auditTrail" title="AUDIT TRAIL">
+                <Tabs defaultActiveKey='address'>
+                    <Tab eventKey="address" title="ADDRESSL">
                         <Container className="mt-2" fluid>
                             <Row>
+                                <TextArea
+                                    register={register}
+                                    errors={errors}
+                                    field={{
+                                        description: "Provide address",
+                                        label: "ADDRESS",
+                                        fieldId: "address",
+                                        placeholder: "",
+                                        // required: true,
+                                        // validationMessage: "Please enter the address name!"
+                                    }}
+                                    changeHandler={null}
+                                    blurHandler={(e) => setaddress(e.target.value)}
+                                />
 
+                                <TextArea
+                                    register={register}
+                                    errors={errors}
+                                    field={{
+                                        description: "Provide shipping address",
+                                        label: "SHIPPING ADDRESS",
+                                        fieldId: "shippingaddress",
+                                        placeholder: "",
+                                        // required: true,
+                                        // validationMessage: "Please enter the address name!"
+                                    }}
+                                    changeHandler={null}
+                                    blurHandler={(e) => setaddress(e.target.value)}
+                                />
+
+                                <TextArea
+                                    register={register}
+                                    errors={errors}
+                                    field={{
+                                        description: "Provide return address",
+                                        label: "RETURN ADDRESS",
+                                        fieldId: "returnaddress",
+                                        placeholder: "",
+                                        // required: true,
+                                        // validationMessage: "Please enter the address name!"
+                                    }}
+                                    changeHandler={null}
+                                    blurHandler={(e) => setaddress(e.target.value)}
+                                />
                             </Row>
                             {!isAddMode && <LogHistories documentPath={"customer"} documentId={id} />}
                         </Container>
-                    </Tab>}
+                    </Tab>
                 </Tabs>
 
             </AppContentBody>

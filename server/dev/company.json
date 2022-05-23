@@ -1,0 +1,20 @@
+[
+  {
+    "_id": "6286227793398e1b8c698044",
+    "name": "Paapri",
+    "phone": "",
+    "email": "",
+    "address": "",
+    "setupType": "COMPANY_SETUP",
+    "website": "paapri.com",
+    "state": "",
+    "country": "US",
+    "shippingaddress": "",
+    "returnaddress": "LA",
+    "tin": "",
+    "pan": "JXBEA3655V",
+    "gstin": "12345678",
+    "legalname": "Paapri Cloud Technoligy",
+    "documentId": 1
+  }
+]

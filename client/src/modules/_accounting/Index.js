@@ -16,6 +16,7 @@ import GeneralLedgerApp from "../../microapps/generalLedgerApp/Index";
 import InvoiceApp from "../../microapps/invoiceApp/Index";
 import InvoicePaymentApp from "../../microapps/invoicePaymentApp/Index";
 import BillPaymentApp from "../../microapps/billPaymentApp/Index";
+import InventoryStockReportApp from "../../microapps/InventoryStockReportApp/Index";
 
 export default function AccountingModule() {
   const { dispatch, user } = useContext(UserContext);
@@ -137,6 +138,10 @@ export default function AccountingModule() {
           <Route path="/customerinvoices/*" element={<InvoiceApp />} />
           <Route path="/customerpayments/*" element={<InvoicePaymentApp />} />
           <Route path="/generalledgers/*" element={<GeneralLedgerApp />} />
+          <Route
+            path="/inventoryanalysis/*"
+            element={<InventoryStockReportApp />}
+          />
         </Routes>
       </AppContentContainer>
     </AppContainer>

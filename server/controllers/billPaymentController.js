@@ -1,5 +1,5 @@
 const BillPayment = require("../models/billPaymentModel");
-const Bill = require("../models/billModel");
+// const Bill = require("../models/billModel");
 const Account = require("../models/accountModel");
 const factory = require("./handlerFactory");
 const catchAsync = require("../utils/catchAsync");
@@ -228,7 +228,7 @@ exports.findBillsById = catchAsync(async (req, res, next) => {
 });
 
 exports.getStandalonebill = catchAsync(async (req, res, next) => {
-  const documents = await Bill.find({ isStandalone: true });
+  const documents = await NewBill.find({ isStandalone: true });
 
   res.status(200).json({
     isSuccess: true,

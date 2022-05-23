@@ -8,21 +8,12 @@ import * as xlxs from "xlsx";
 import ApiService from '../../helpers/ApiServices';
 import { errorMessage, infoNotification } from '../../helpers/Utils';
 
-export default function PriceChart() {
+export default function ImportCustomer() {
     const [loderStatus, setLoderStatus] = useState("NOTHING");
     // let { path, url } = useRouteMatch();
     const [state, setState] = useState({});
     const [fileUpload, setfileUpload] = useState();
     const [xlfile, setxlfile] = useState();
-    const [billtotal, setbilltotal] = useState(0);
-    const [billsgsttotal, setbillsgsttotal] = useState(0);
-    const [billcgsttotal, setbillcgsttotal] = useState(0);
-    const [billsubtotal, setbillsubtotal] = useState(0);
-    const [accountList, setAccountList] = useState([])
-    const [journals, setJournals] = useState([])
-    const [tabKey, setTabKey] = useState('invoiceLines');
-    const [productList, setProductList] = useState([]);
-    const [supplierList, setSupplierList] = useState([])
     const location = useLocation();
     const navigate = useNavigate();
     const rootPath = location?.pathname?.split('/')[1];
@@ -34,8 +25,7 @@ export default function PriceChart() {
     const { register, handleSubmit, setValue, getValues, control, reset, setError, formState: { errors } } = useForm({
         defaultValues: {}
     });
-    const { append: invoiceLineAppend, remove: invoiceLineRemove, fields: invoiceLineFields } = useFieldArray({ control, name: "invoiceLines" });
-    const { append: journalItemAppend, remove: journalItemRemove, fields: journalItemFields } = useFieldArray({ control, name: "journalItems" });
+
 
     const onSubmit = async (formData) => {
         console.log(formData);
@@ -55,15 +45,12 @@ export default function PriceChart() {
 
         try {
             ApiService.setHeader();
-
-            const response = await ApiService.delete('/priceChartUpload/procedure')
-            if (response.data.isSuccess) {
-                const res = await ApiService.post('/priceChartUpload/procedure', xlData)
-                if (res.data.isSuccess) {
-                    console.log(res.data.documents);
-                    navigate(`/${rootPath}/pricechartlist`);
-                }
+            const res = await ApiService.post('/customer/import', xlData)
+            if (res.data.isSuccess) {
+                console.log(res.data.documents);
+                navigate(`/${rootPath}/customers`);
             }
+
         } catch (e) {
             errorMessage(e, null)
         }
@@ -101,12 +88,12 @@ export default function PriceChart() {
             <Form onSubmit={handleSubmit(onSubmit)} className="pct-app-content">
                 <Container className="pct-app-content-header m-0 mt-2 pb-2" style={{ borderBottom: '1px solid black' }} fluid>
                     <Row>
-                        <Col><h3>Price Chart Upload</h3></Col>
+                        <Col><h3>Product Upload</h3></Col>
                     </Row>
                     <Row>
                         <Col>
-                            <Button type="submit" variant="primary" size="sm">SAVE</Button>
-                            <Button as={Link} to={`/${rootPath}/pricechartlist`} variant="light" size="sm">DISCARD</Button>
+                            <Button type="submit" variant="primary" size="sm">IMPORT</Button>
+                            <Button as={Link} to={`/${rootPath}/product/list`} variant="light" size="sm">DISCARD</Button>
 
                         </Col>
                     </Row>

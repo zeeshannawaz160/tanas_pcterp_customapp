@@ -2,7 +2,7 @@ const mongoose = require("mongoose");
 const validator = require("validator");
 const autoIncrement = require("mongoose-auto-increment");
 const padStart = require("lodash.padstart");
-const diffHistory = require('mongoose-diff-history/diffHistory')
+const diffHistory = require("mongoose-diff-history/diffHistory");
 
 // FIELDS ARE >>>
 const vendorSchema = mongoose.Schema(
@@ -74,6 +74,9 @@ const vendorSchema = mongoose.Schema(
         address1: {
           type: String,
         },
+        address: {
+          type: String,
+        },
         address2: {
           type: String,
         },
@@ -109,10 +112,7 @@ vendorSchema.plugin(autoIncrement.plugin, {
   startAt: 1,
 });
 vendorSchema.plugin(diffHistory.plugin, {
-  omit: [
-    'updatedAt',
-    'id'
-  ]
+  omit: ["updatedAt", "id"],
 });
 // vendorSchema.pre('save', async function (next) {
 //     this.name = "PO" + padStart(this.purchaseOrderId, 4, '0');

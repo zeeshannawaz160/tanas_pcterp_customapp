@@ -10,10 +10,10 @@ export default function CompanyApp() {
 
     return (
         <Routes>
-            <Route path={`/edit/:id`} element={< Company />} />
-            <Route path={`/`} element={< CompanyList />} />
-            <Route path={`/list`} element={<CompanyList />} />
-            <Route path={`/add`} element={< Company />} />
+            {/* <Route path={`/edit/:id`} element={< Company />} />
+            <Route path={`/list`} element={<CompanyList />} /> */}
+            {/* <Route path={`/add`} element={< Company />} /> */}
+            <Route path={`/`} element={< Company />} />
         </Routes>
     )
 }
