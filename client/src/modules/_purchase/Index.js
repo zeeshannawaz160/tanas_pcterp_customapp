@@ -29,6 +29,7 @@ import SizeApp from "../../microapps/sizeApp";
 import SizeListApp from "../../microapps/sizeListApp";
 import PriceChartUploadApp from "../../microapps/priceChartUploadApp";
 import PriceChartListApp from "../../microapps/priceChartList";
+import ImportVendor from "../../microapps/vendorApp/VendorImport";
 
 export default function PurchaseModule() {
   const { dispatch, user } = useContext(UserContext);
@@ -163,6 +164,7 @@ export default function PurchaseModule() {
           <Route path={"/size/*"} element={<SizeApp />} />
           <Route path={"/sizelist/*"} element={<SizeListApp />} />
           <Route path={"/pricechartlist/*"} element={<PriceChartListApp />} />
+          <Route path={"/importvendors/*"} element={<ImportVendor />} />
           <Route
             path={"/pricechartupload/*"}
             element={<PriceChartUploadApp />}

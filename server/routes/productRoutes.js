@@ -12,14 +12,19 @@ const router = express.Router();
 router.use(authController.protect(Employee));
 
 //
+router.route("/import").post(productController.importProduct);
+
 router.route("/search/:name").get(productController.getItemByName);
+
 router.route("/list").get(productController.productList);
+
 router
   .route("/getIncomeExpenseAssetAccount")
   .get(productController.getIncomeExpenseAssetAccount);
 //
 
 router.route("/procedure").post(productController.productCreate);
+
 router.route("/barcode/:barcode").get(productController.getProductByBarcode);
 
 router

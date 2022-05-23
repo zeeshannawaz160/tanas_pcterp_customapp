@@ -54,6 +54,10 @@
               {
                 "item_name": "Products",
                 "item_navigation": "product"
+              },
+              {
+                "item_name": "Import Product",
+                "item_navigation": "importproduct"
               }
             ]
           }

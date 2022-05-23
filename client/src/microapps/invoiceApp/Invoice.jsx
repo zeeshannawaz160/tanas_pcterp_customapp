@@ -21,7 +21,7 @@ import LineSelectField from '../../pcterp/field/LineSelectField';
 import LineTextField from '../../pcterp/field/LineTextField';
 import LineNumberField from '../../pcterp/field/LineNumberField';
 import LineDecimal128Field from '../../pcterp/field/LineDecimal128Field';
-import { PurchaseOrderPDF } from '../../helpers/PDF';
+import { PurchaseOrderPDF, SalesOrderPDF } from '../../helpers/PDF';
 
 export default function Invoice() {
     const [loderStatus, setLoderStatus] = useState(null);
@@ -145,7 +145,7 @@ export default function Invoice() {
 
     // handle Print
     const handlePrintOrder = async () => {
-        PurchaseOrderPDF.generateBillPDF(state.id);
+        SalesOrderPDF.generateInvoicePdDF(state.id);
         return;
     }
 
@@ -242,7 +242,7 @@ export default function Invoice() {
 
                             {state?.status == "Draft" ? <Button onClick={handleConfirmButton} type="button" variant="primary">CONFIRM</Button> : ""}
                             {state?.status == "Posted" && state?.paymentStatus == "Not Paid" ? <Button onClick={handleRegisterPaymentButton} type="button" variant="primary">REGISTER PAYMENT</Button> : ""}
-                            {!isAddMode && <Button variant="light" onClick={handlePrintOrder}>PRINT Bill</Button>}
+                            {!isAddMode && <Button variant="light" onClick={handlePrintOrder}>PRINT INVOICE</Button>}
                         </ButtonGroup>
                     </Col>
                     <Col style={{ display: 'flex', justifyContent: 'end' }}>

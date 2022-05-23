@@ -196,6 +196,67 @@ exports.productList = catchAsync(async (req, res, next) => {
   //const document = await Item.find({ name: });
 });
 
+/**
+ * Title: Get Income, Expense and Asset account
+ * Request: GET
+ * Routes: api/v1/product/import
+ *
+ * Method description:
+ * This method will get Income , Expense, Asset account and all units. After that format the data received from body to save into product
+ * database.
+ *
+ * Changes Log:
+ * 20-05-2022: Biswajit create the method
+ *
+ */
+exports.importProduct = catchAsync(async (req, res, next) => {
+  let assetAcc;
+  let imcomeAcc;
+  let expenseAcc;
+  let units;
+  let productArray = new Array();
+
+  await Promise.all(
+    (assetAcc = await Account.find({ title: "Inventory Asset" })),
+    (imcomeAcc = await Account.find({ title: "Sales" })),
+    (expenseAcc = await Account.find({ title: "COGS" })),
+    (units = await UOM.find())
+  );
+
+  await Promise.all(
+    req.body?.map((e) => {
+      let productObj = new Object();
+
+      productObj.name = e.PRODUCTNAME;
+      productObj.description = e.DESCRIPTION;
+      productObj.cost = e.COST;
+      productObj.salesPrice = e.SALESPRICE;
+      productObj.incomeAccount = imcomeAcc;
+      productObj.expenseAccount = expenseAcc;
+      productObj.assetAccount = assetAcc;
+      const unit = units.filter((ele) => ele.name == e.UNIT);
+      productObj.uom = unit;
+
+      productArray.push(productObj);
+    })
+  );
+
+  console.log("array: ", productArray);
+
+  const docs = await Product.insertMany(productArray, function (error, doc) {
+    console.log("error: ", error);
+    if (error) {
+      return next(new AppError("Products has not been imported", 404));
+    }
+  });
+
+  res.status(200).json({
+    isSuccess: true,
+    status: "success",
+    documents: docs,
+  });
+});
+
 exports.getHistories = catchAsync(async (req, res) => {
   const doc = await Product.findById(req.params.id);
 

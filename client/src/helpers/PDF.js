@@ -2,6 +2,8 @@ import ApiService from "./ApiServices";
 import jsPDF from "jspdf";
 import "jspdf-autotable";
 import "jspdf-barcode";
+import listReactFiles from "list-react-files";
+const fs = require("fs");
 
 // 1. Purchase Order, Product Receipt, Bill, Bill Payment
 const PurchaseOrderPDF = {
@@ -957,189 +959,207 @@ const SalesOrderPDF = {
         if (response.data.isSuccess) {
           console.log(salesOrderId);
           const salesOrder = response.data.document;
-          ApiService.get("customer/" + salesOrder.customer).then((res) => {
-            if (res.data.isSuccess) {
-              let products = new Array();
-              var doc = new jsPDF("p", "pt", "a4");
-              //header color
-              doc.setDrawColor(0);
-              doc.setFillColor(255, 255, 255);
-              doc.rect(0, 0, 700, 40, "F");
-              doc.setFontSize(12);
-              doc.text("Date:", 430, 90);
-              doc.text(`${salesOrder.date?.slice(0, 10)}`, 460, 90);
-              doc.text("Delivery Date:", 380, 110);
-              doc.text(`${salesOrder.deliveryDate?.slice(0, 10)}`, 460, 110);
-              // doc.rect(460, 62, 90, 15);
-              doc.setFontSize(17);
-              doc.setFont("bold");
-              // doc.text("PO#:", 430, 95);
-              //POO number
-              doc.text(`${salesOrder.name}`, 460, 70);
-              // doc.rect(460, 77, 90, 15);
+          console.log(salesOrder);
+          ApiService.get("customer/" + salesOrder.customer[0]._id).then(
+            async (res) => {
+              if (res.data.isSuccess) {
+                //Test to get image
+                await ApiService.get("company/getCompanyImage").then((r) => {
+                  console.log(r.data);
 
-              doc.setFontSize(22);
-              // doc.setFont("times", "italic");
-              doc.text("Company:", 40, 70);
-              // doc.line(40, 68, 90, 68)
-              doc.setFontSize(17);
-              doc.text(`PBTI`, 138, 70);
+                  const files = fs.readFile(r.data.path);
 
-              doc.setFontSize(12);
-              doc.text("Address:", 40, 90);
-              doc.setFontSize(9);
-              doc.text(
-                "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
-                90,
-                80
-              );
+                  for (const file of files) {
+                    console.log(file);
+                  }
+                });
+                //
 
-              doc.setFontSize(12);
-              doc.text("Phone:", 40, 140);
-              doc.setFontSize(9);
-              doc.text("8282822924", 80, 140);
-              doc.setFontSize(12);
-              doc.text("Website:", 40, 160);
-              doc.setFontSize(9);
-              doc.text("www.paapri.com", 90, 160);
-              // doc.text("Website:", 40, 200);
-              doc.setDrawColor(255, 0, 0);
-              doc.setFillColor(230, 230, 230);
-              doc.rect(40, 175, 200, 20, "F");
-              doc.setFontSize(12);
-              doc.setTextColor(0, 0, 0);
-              doc.text("Customer Name:", 45, 190);
-              doc.setTextColor(0, 0, 0);
-              // doc.text("Name & Address:", 43, 210);
-              doc.text(`${res.data.document.name}`, 47, 220);
+                let products = new Array();
+                var doc = new jsPDF("p", "pt", "a4");
+                //header color
+                doc.setDrawColor(0);
+                doc.setFillColor(255, 255, 255);
+                doc.rect(0, 0, 700, 40, "F");
+                doc.setFontSize(12);
+                doc.text("Date:", 430, 90);
+                doc.text(`${salesOrder.date?.slice(0, 10)}`, 460, 90);
+                doc.text("Delivery Date:", 380, 110);
+                doc.text(`${salesOrder.deliveryDate?.slice(0, 10)}`, 460, 110);
+                // doc.rect(460, 62, 90, 15);
+                doc.setFontSize(17);
+                doc.setFont("bold");
+                // doc.text("PO#:", 430, 95);
+                //POO number
+                doc.text(`${salesOrder.name}`, 460, 70);
+                // doc.rect(460, 77, 90, 15);
 
-              // doc.setFontSize(9);
-              // doc.text(`${salesOrder}`, 43, 220);
-              // doc.text(`${salesOrder.bilingAddress}`, 43, 230);
-              doc.setDrawColor(255, 0, 0);
-              doc.setFillColor(230, 230, 230);
-              doc.rect(355, 175, 200, 20, "F");
-              doc.setFontSize(12);
-              doc.setTextColor(0, 0, 0);
-              doc.text("Ship To:", 360, 190);
-              doc.setTextColor(0, 0, 0);
-              // doc.text("Name & Address:", 358, 210);
-              doc.setFontSize(9);
-              doc.setTextColor(0, 0, 0);
-              // doc.text(`${salesOrder.customerName}`, 400, 220);
-              doc.text(`${salesOrder.shippingAddress}`, 358, 230);
-              doc.setFontSize(30);
-              doc.setFont("Sans-serif");
-              doc.setTextColor(0, 0, 0);
-              doc.text("Sales Order", 215, 40);
-              let height = 200;
+                doc.setFontSize(22);
+                // doc.setFont("times", "italic");
+                doc.text("Company:", 40, 70);
+                // doc.line(40, 68, 90, 68)
+                doc.setFontSize(17);
+                doc.text(`PBTI`, 138, 70);
 
-              // Restructure line items
-              let array = new Array();
-              salesOrder?.products.map(async (e) => {
-                let obj = new Object();
+                doc.setFontSize(12);
+                doc.text("Address:", 40, 90);
+                doc.setFontSize(9);
+                doc.text(
+                  "\nWebel Software, Ground Floor, \nDN Block, Sector V, \nWest Bengal 700091",
+                  90,
+                  80
+                );
 
-                obj.name = e.name;
-                obj.description = e.description;
-                obj.quantity = e.quantity;
-                obj.delivered = e.delivered;
-                obj.invoiced = e.invoiced;
-                obj.unitPrice = e.unitPrice.toFixed(2);
-                obj.taxes = e.taxes + "%";
-                obj.subTotal = e.subTotal.toFixed(2);
-                array.push(obj);
-              });
-              console.log(salesOrder?.products);
-              console.log(array);
+                doc.setFontSize(12);
+                doc.text("Phone:", 40, 140);
+                doc.setFontSize(9);
+                doc.text("8282822924", 80, 140);
+                doc.setFontSize(12);
+                doc.text("Website:", 40, 160);
+                doc.setFontSize(9);
+                doc.text("www.paapri.com", 90, 160);
+                // doc.text("Website:", 40, 200);
+                doc.setDrawColor(255, 0, 0);
+                doc.setFillColor(230, 230, 230);
+                doc.rect(40, 175, 200, 20, "F");
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text("Customer Name:", 45, 190);
+                doc.setTextColor(0, 0, 0);
+                // doc.text("Name & Address:", 43, 210);
+                doc.text(`${res.data.document.name}`, 47, 220);
 
-              // Create the table of products data
-              doc.autoTable({
-                margin: { top: 280 },
-                styles: {
-                  lineColor: [153, 153, 153],
-                  lineWidth: 1,
-                  fillColor: [179, 179, 179],
-                },
-                columnStyles: {
-                  europe: { halign: "center" },
-                  0: { cellWidth: 88 },
-                  1: { cellWidth: 100, halign: "center" },
-                  2: { cellWidth: 50, halign: "center" },
-                  3: { cellWidth: 57, halign: "left" },
-                  4: { cellWidth: 65 },
-                  5: { cellWidth: 65, halign: "right" },
-                  6: { cellWidth: 57, halign: "right" },
-                  7: { cellWidth: 65, halign: "right" },
+                // doc.setFontSize(9);
+                // doc.text(`${salesOrder}`, 43, 220);
+                // doc.text(`${salesOrder.bilingAddress}`, 43, 230);
+                doc.setDrawColor(255, 0, 0);
+                doc.setFillColor(230, 230, 230);
+                doc.rect(355, 175, 200, 20, "F");
+                doc.setFontSize(12);
+                doc.setTextColor(0, 0, 0);
+                doc.text("Ship To:", 360, 190);
+                doc.setTextColor(0, 0, 0);
+                // doc.text("Name & Address:", 358, 210);
+                doc.setFontSize(9);
+                doc.setTextColor(0, 0, 0);
+                // doc.text(`${salesOrder.customerName}`, 400, 220);
+                doc.text(`${salesOrder.shippingAddress}`, 358, 230);
+                doc.setFontSize(30);
+                doc.setFont("Sans-serif");
+                doc.setTextColor(0, 0, 0);
+                doc.text("Sales Order", 215, 40);
+                let height = 200;
 
-                  // 6: { cellWidth: 65, halign: 'right' },
-                  // 7: { cellWidth: 65, halign: 'right' },
-                }, // European countries centered
-                // body: salesOrder.products,
-                body: array,
-                columns: [
-                  { header: "Product", dataKey: "name" },
-                  { header: "Description", dataKey: "description" },
-                  {
-                    header: "Qty",
-                    dataKey: "quantity",
-                    halign: "center",
-                    valign: "center",
+                // Restructure line items
+                let array = new Array();
+                salesOrder?.products.map(async (e) => {
+                  let obj = new Object();
+
+                  obj.name = e.name;
+                  obj.description = e.description;
+                  obj.quantity = e.quantity;
+                  obj.delivered = e.delivered;
+                  obj.invoiced = e.invoiced;
+                  obj.unitPrice = e.unitPrice.toFixed(2);
+                  obj.taxes = e.taxes + "%";
+                  obj.subTotal = e.subTotal.toFixed(2);
+                  array.push(obj);
+                });
+                console.log(salesOrder?.products);
+                console.log(array);
+
+                // Create the table of products data
+                doc.autoTable({
+                  margin: { top: 280 },
+                  tableWidth: 200,
+                  styles: {
+                    lineColor: [153, 153, 153],
+                    lineWidth: 1,
+                    fillColor: [179, 179, 179],
                   },
-                  { header: "Delivered", dataKey: "delivered" },
-                  { header: "Invoiced", dataKey: "invoiced", halign: "center" },
-                  {
-                    header: "Unit Rate",
-                    dataKey: "unitPrice",
-                    halign: "center",
-                  },
-                  { header: "Taxes(%)", dataKey: "taxes", halign: "right" },
-                  {
-                    header: "Sub Total",
-                    dataKey: "subTotal",
-                    halign: "center",
-                  },
-                ],
-                didDrawPage: (d) => (height = d.cursor.y), // calculate height of the autotable dynamically
-              });
+                  columnStyles: {
+                    europe: { halign: "center" },
+                    0: { cellWidth: 88 },
+                    1: { cellWidth: 75, halign: "center" },
+                    2: { cellWidth: 50, halign: "center" },
+                    3: { cellWidth: 57, halign: "left" },
+                    4: { cellWidth: 60 },
+                    5: { cellWidth: 60, halign: "right" },
+                    6: { cellWidth: 57, halign: "center" },
+                    7: { cellWidth: 67, halign: "right" },
+                  }, // European countries centered
+                  // body: salesOrder.products,
+                  body: array,
+                  columns: [
+                    { header: "Product", dataKey: "name" },
+                    { header: "Description", dataKey: "description" },
+                    {
+                      header: "Qty",
+                      dataKey: "quantity",
+                      halign: "center",
+                      valign: "center",
+                    },
+                    { header: "Delivered", dataKey: "delivered" },
+                    {
+                      header: "Invoiced",
+                      dataKey: "invoiced",
+                      halign: "center",
+                    },
+                    {
+                      header: "Unit Rate",
+                      dataKey: "unitPrice",
+                      halign: "center",
+                    },
+                    { header: "Taxes(%)", dataKey: "taxes", halign: "right" },
+                    {
+                      header: "Sub Total",
+                      dataKey: "subTotal",
+                      halign: "center",
+                    },
+                  ],
+                  didDrawPage: (d) => (height = d.cursor.y), // calculate height of the autotable dynamically
+                });
 
-              let h = height + 30;
+                let h = height + 30;
 
-              doc.setTextColor(0, 0, 0);
-              doc.setFontSize(10);
-              doc.text("CGST:", 460, h);
-              doc.text(`${salesOrder.estimation?.cgst.toFixed(2)}`, 490, h);
-              doc.text("SGST:", 460, h + 10);
-              doc.text(
-                `${salesOrder.estimation?.sgst.toFixed(2)}`,
-                490,
-                h + 10
-              );
-              // doc.text("IGST:", 460, h + 20);
-              // doc.text(`${salesOrder.estimation?.igst}`, 490, h + 20);
-              doc.line(460, h + 30, 500, h + 30);
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(10);
+                // doc.text("CGST:", 460, h);
+                // doc.text(
+                //   `${parseFloat(salesOrder.estimation?.tax / 2)?.toFixed(2)}`,
+                //   490,
+                //   h
+                // );
+                doc.text("Tax:", 460, h + 27);
+                doc.text(
+                  `${parseFloat(salesOrder.estimation?.tax)?.toFixed(2)}`,
+                  490,
+                  h + 27
+                );
 
-              doc.setTextColor(0, 0, 0);
-              doc.setFontSize(12);
-              doc.text("Total:", 460, h + 45);
-              doc.text(
-                `${salesOrder.estimation?.total.toFixed(2)}`,
-                490,
-                h + 45
-              );
-              const pageCount = doc.internal.getNumberOfPages();
+                doc.line(460, h + 30, 530, h + 30);
 
-              doc.text(`${pageCount}`, 300, 820);
-              doc.save(`Sales Order - ${salesOrder.name}.pdf`);
-            } else {
-              console.log(
-                "Something went wrong while generating purchase order pdf"
-              );
+                doc.setTextColor(0, 0, 0);
+                doc.setFontSize(12);
+                doc.text("Total:", 460, h + 45);
+                doc.text(
+                  `${salesOrder.estimation?.total.toFixed(2)}`,
+                  490,
+                  h + 45
+                );
+                const pageCount = doc.internal.getNumberOfPages();
+
+                doc.text(`${pageCount}`, 300, 820);
+                doc.save(`Sales Order - ${salesOrder.name}.pdf`);
+              } else {
+                console.log(
+                  "Something went wrong while generating sales order pdf"
+                );
+              }
             }
-          });
-        } else {
-          console.log(
-            "Something went wrong while generating purchase order pdf"
           );
+        } else {
+          console.log("Something went wrong while generating sales order pdf");
         }
       })
       .catch((e) => {
@@ -1150,7 +1170,7 @@ const SalesOrderPDF = {
   generateInvoicePdDF(id) {
     ApiService.setHeader();
     ApiService.get("invoice/getInvoiceForPdf/" + id)
-      .then((res) => {
+      .then(async (res) => {
         if (res.data.isSuccess) {
           const inv = res.data.document;
           console.log(inv);
@@ -1205,10 +1225,16 @@ const SalesOrderPDF = {
           doc.setTextColor(0, 0, 0);
           doc.text("Customer Name:", 45, 190);
           doc.setTextColor(0, 0, 0);
-          doc.text(`${inv.customer.name}`, 43, 210);
+          doc.text(`${inv.customer[0]?.name}`, 43, 210);
           doc.setFontSize(9);
           // doc.text(`${salesOrder.billingAddress}`, 43, 220);
           // doc.text(`${salesOrder.bilingAddress}`, 43, 230);
+          // get customer details
+          let addr;
+          await ApiService.get("customer/" + inv.customer[0]._id).then((r) => {
+            addr = r.data.document.address;
+          });
+
           doc.setDrawColor(255, 0, 0);
           doc.setFillColor(230, 230, 230);
           doc.rect(355, 175, 200, 20, "F");
@@ -1216,7 +1242,7 @@ const SalesOrderPDF = {
           doc.setTextColor(0, 0, 0);
           doc.text("Ship To:", 360, 190);
           doc.setTextColor(0, 0, 0);
-          doc.text(`${inv.customer.address}`, 358, 210);
+          doc.text(`${addr}`, 358, 210);
           doc.setFontSize(9);
           // doc.text(`${salesOrder.shippingAddress}`, 358, 220);
           doc.setFontSize(30);
@@ -1227,6 +1253,7 @@ const SalesOrderPDF = {
 
           // Restructure line items
           let array = new Array();
+          console.log(res?.data?.newinvoiceLines);
           res?.data?.newinvoiceLines?.map(async (e) => {
             let obj = new Object();
 
@@ -1487,7 +1514,7 @@ const SalesOrderPDF = {
       console.log(response);
       if (response.data.isSuccess) {
         const bill = response.data.document;
-        ApiService.get("customer/" + bill.customer).then((res) => {
+        ApiService.get("customer/" + bill.customer[0]._id).then((res) => {
           if (res.data.isSuccess) {
             let Products = new Array();
             var doc = new jsPDF("p", "pt", "a4");
@@ -1567,10 +1594,10 @@ const SalesOrderPDF = {
               columnStyles: {
                 europe: { halign: "center" },
                 0: { cellWidth: 88 },
-                2: { cellWidth: 80, halign: "center" },
-                3: { cellWidth: 50, halign: "right" },
-                4: { cellWidth: 65 },
-                5: { cellWidth: 65, halign: "right" },
+                1: { cellWidth: 250, halign: "center" },
+                2: { cellWidth: 88, halign: "right" },
+                3: { cellWidth: 88 },
+                // 5: { cellWidth: 65, halign: "right" },
               },
               body: bill.operations,
               columns: [

@@ -9,6 +9,7 @@ import ApiService from '../../helpers/ApiServices';
 import AppContentBody from '../../pcterp/builder/AppContentBody'
 import AppContentForm from '../../pcterp/builder/AppContentForm'
 import AppContentHeader from '../../pcterp/builder/AppContentHeader'
+import { errorMessage, infoNotification } from '../../helpers/Utils';
 
 export default function PriceChart() {
     const [loderStatus, setLoderStatus] = useState("NOTHING");
@@ -34,12 +35,7 @@ export default function PriceChart() {
     const isAddMode = !id;
 
     const { register, handleSubmit, setValue, getValues, control, reset, setError, formState: { errors } } = useForm({
-        defaultValues: {
-            total: 0,
-            currency: null,
-            subsidiary: null,
-            location: null
-        }
+        defaultValues: {}
     });
     const { append: invoiceLineAppend, remove: invoiceLineRemove, fields: invoiceLineFields } = useFieldArray({ control, name: "invoiceLines" });
     const { append: journalItemAppend, remove: journalItemRemove, fields: journalItemFields } = useFieldArray({ control, name: "journalItems" });
@@ -53,10 +49,11 @@ export default function PriceChart() {
 
     const createDocument = async (data) => {
         console.log(xlfile);
-        const wb = xlxs.read(xlfile, { type: "buffer" })
-        const wbName = wb.SheetNames[0]
-        const ws = wb.Sheets[wbName]
-        const xlData = xlxs.utils.sheet_to_json(ws)
+        // const wb = xlxs.read(xlfile, { type: "buffer" })
+        // const wbName = wb.SheetNames[0]
+        // const ws = wb.Sheets[wbName]
+        // const xlData = xlxs.utils.sheet_to_json(ws)
+        const xlData = getxlData()
         console.log(xlData);
 
         try {
@@ -70,14 +67,14 @@ export default function PriceChart() {
                     navigate(`/${rootPath}/pricechartlist`);
                 }
             }
-        } catch (err) {
-            alert(err)
+        } catch (e) {
+            errorMessage(e, null)
         }
     }
 
     const updateDocument = (id, data) => {
         if (state.status == "Posted") {
-            alert("you can'tupdate this document")
+            infoNotification("you can'tupdate this document")
         } else {
             ApiService.setHeader();
             return ApiService.patch(`/bill/${id}`, data).then(response => {
@@ -85,25 +82,20 @@ export default function PriceChart() {
                     navigate("/purchase/vendorbills");
                 }
             }).catch(e => {
-                console.log(e);
+                errorMessage(e, null)
             })
         }
 
 
     }
 
-    const deleteDocument = () => {
+    const getxlData = () => {
+        const wb = xlxs.read(xlfile, { type: "buffer" })
+        const wbName = wb.SheetNames[0]
+        const ws = wb.Sheets[wbName]
+        const xlData = xlxs.utils.sheet_to_json(ws)
 
-        return ApiService.delete(`bill/${id}`).then(response => {
-            navigate("/purchase/bills");
-
-        }).catch(e => {
-            console.log(e);
-        })
-    }
-
-    const formatingXlData = (data) => {
-
+        return xlData;
     }
 
 
@@ -126,7 +118,6 @@ export default function PriceChart() {
 
                                 <Dropdown.Item onClick={deleteDocument} eventKey="4">Delete</Dropdown.Item>
                             </DropdownButton>} */}
-
                     </Col>
                 </Row>
             </Container>

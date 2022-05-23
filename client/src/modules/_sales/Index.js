@@ -19,6 +19,8 @@ import InvoiceApp from "../../microapps/invoiceApp/Index";
 import InvoicePaymentApp from "../../microapps/invoicePaymentApp/Index";
 import Dashboard from "../../microapps/purchaseReportingApp/Dashboard";
 import CustomersDataUploadApp from "../../microapps/customersDataUploadApp";
+import ImportProduct from "../../microapps/productApp/ImportProduct";
+import ImportCustomer from "../../microapps/customerApp/CustomerImport";
 
 export default function SalesModule() {
   const { dispatch, user } = useContext(UserContext);
@@ -145,6 +147,8 @@ export default function SalesModule() {
           <Route path="/invoices/*" element={<InvoiceApp />} />
           <Route path="/customerpayments/*" element={<InvoicePaymentApp />} />
           <Route path="/salesanalysis/*" element={<Dashboard />} />
+          <Route path="/importproduct/*" element={<ImportProduct />} />
+          <Route path="/importcustomers/*" element={<ImportCustomer />} />
           {/* <Route path="/invoicepayment/*" element={<InvoicePaymentApp />} /> */}
         </Routes>
       </AppContentContainer>

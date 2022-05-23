@@ -12,7 +12,10 @@ const router = express.Router();
 router.route("/import").post(customerController.importCustomer);
 
 router.use(authController.protect(Employee));
+
 router.route("/list").get(customerController.getList);
+
+router.route("/import").post(customerController.importCustomer);
 
 router
   .route("/")
@@ -26,8 +29,6 @@ router
   .patch(customerController.updateCustomer)
   .delete(customerController.deleteCustomer);
 
-router
-  .route('/:id/histories')
-  .get(customerController.getHistories)
+router.route("/:id/histories").get(customerController.getHistories);
 
 module.exports = router;

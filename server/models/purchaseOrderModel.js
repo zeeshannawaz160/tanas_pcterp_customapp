@@ -23,7 +23,7 @@ const purchaseOrderSchema = mongoose.Schema(
       {
         id: {
           type: mongoose.Schema.Types.ObjectId,
-          ref: "newBill",
+          ref: "NewBill",
         },
         name: String,
       },
@@ -43,7 +43,7 @@ const purchaseOrderSchema = mongoose.Schema(
     referenceNumber: String,
     vendorBill: {
       type: mongoose.Schema.Types.ObjectId,
-      ref: "Bill",
+      ref: "NewBill",
     },
     isFullyBilled: {
       type: Boolean,

@@ -29,6 +29,10 @@
                 "item_navigation": "vendors"
               },
               {
+                "item_name": "Import Vendors",
+                "item_navigation": "importvendors"
+              },
+              {
                 "item_name": "Vendor Bills",
                 "item_navigation": "bills"
               },

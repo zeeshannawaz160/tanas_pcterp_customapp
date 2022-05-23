@@ -10,7 +10,7 @@ import AppContentBody from '../../pcterp/builder/AppContentBody'
 import AppContentForm from '../../pcterp/builder/AppContentForm'
 import AppContentHeader from '../../pcterp/builder/AppContentHeader'
 import AppLoader from '../../pcterp/components/AppLoader';
-import { formatNumber } from '../../helpers/Utils';
+import { errorMessage, formatNumber } from '../../helpers/Utils';
 const moment = require('moment');
 
 export default function GeneralLedgerList() {
@@ -40,10 +40,14 @@ export default function GeneralLedgerList() {
 
     const findAllDocument = async () => {
         ApiService.setHeader();
-        const response = await ApiService.get('generalLedger');
-        console.log(response.data.documents)
-        setstate(response.data.documents)
-        setLoderStatus("SUCCESS");
+        try {
+            const response = await ApiService.get('generalLedger');
+            console.log(response.data.documents)
+            setstate(response.data.documents)
+            setLoderStatus("SUCCESS");
+        } catch (e) {
+            errorMessage(e, null)
+        }
     }
 
     const columns = [

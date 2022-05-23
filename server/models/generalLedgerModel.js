@@ -23,7 +23,7 @@ const generalLedgerSchema = mongoose.Schema(
       required: true,
       enum: [
         "Bank",
-        "Bill",
+        "NewBill",
         "ComponentIssue",
         "Invoice",
         "InventoryAdjustment",

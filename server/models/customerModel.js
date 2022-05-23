@@ -14,6 +14,8 @@ const customerSchema = mongoose.Schema(
     address: String,
     email: {
       type: String,
+      required: [true, "A Customer must have a email"],
+      unique: [true, "Email must be unique for every customer"],
       trim: true,
       lowercase: true,
     },

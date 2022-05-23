@@ -8,12 +8,12 @@ const path = require("path");
 // ROUTES
 const router = express.Router();
 
-// const upload = multer({ dest: "public/upload" });
-
 // Public Routes
 // Role Specified Routes
 // router.use(authController.protect);
 router.use(authController.protect(Employee));
+
+router.route("/getCompanyImage").get(companyController.getCompanyImage);
 
 router
   .route("/")
